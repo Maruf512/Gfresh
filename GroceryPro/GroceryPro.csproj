@@ -101,16 +101,6 @@
     <Compile Include="ManageItemsEdit.xaml.cs">
       <DependentUpon>ManageItemsEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="testDbDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>testDbDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="testDbDataSet1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>testDbDataSet1.xsd</DependentUpon>
-    </Compile>
     <Page Include="Billing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -190,28 +180,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="testDbDataSet.xsc">
-      <DependentUpon>testDbDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="testDbDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>testDbDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="testDbDataSet.xss">
-      <DependentUpon>testDbDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="testDbDataSet1.xsc">
-      <DependentUpon>testDbDataSet1.xsd</DependentUpon>
-    </None>
-    <None Include="testDbDataSet1.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>testDbDataSet1.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="testDbDataSet1.xss">
-      <DependentUpon>testDbDataSet1.xsd</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -271,15 +239,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="PdfSharp.SharpZipLib\ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="testDb.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="testDb_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>testDb.mdf</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
