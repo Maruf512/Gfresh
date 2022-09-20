@@ -1,0 +1,47 @@
+﻿<Window x:Class="GroceryPro.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GroceryPro"
+        mc:Ignorable="d"
+        Title="Gfresh" WindowStartupLocation="CenterScreen" Height="400" Width="700" ResizeMode="NoResize" Icon="/Images/groceries.png" Closed="Window_Closed" Closing="Window_Closing" WindowStyle="None">
+    <Grid>
+        <Image Height="400" Width="700" HorizontalAlignment="Center" VerticalAlignment="Top" Source="./Images/SplashBG.jpg" Stretch="Fill"/>
+        <Image Panel.ZIndex="1" VerticalAlignment="Top" Source="/Images/groceries.png" HorizontalAlignment="Center" Margin="0,50,0,200"/>
+        <Label Content="Gfresh" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="36" FontFamily="Comic Sans MS" Margin="0,40,0,0" RenderTransformOrigin="0.5,0.5">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF1D3B40" Offset="0"/>
+                    <GradientStop Color="#FF42CDE8" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Label Content="V.1.0" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" FontFamily="Comic Sans MS" Margin="0,100,0,0" RenderTransformOrigin="0.5,0.5" IsEnabled="False">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF388390" Offset="0.283"/>
+                    <GradientStop Color="#FF4291E8" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <ProgressBar x:Name="SplashProgress" HorizontalAlignment="Center" Height="15" VerticalAlignment="Center" Width="655" Margin="0,330,0,0" BorderThickness="1,1,1,1" Grid.IsSharedSizeScope="True" BorderBrush="#FF9BCAFF" Background="#FF9BCAFF" Foreground="#FF6C5EE7"/>
+        <Label Content="Loading..." HorizontalAlignment="Left" Margin="21,319,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="Comic Sans MS">
+            <Label.Foreground>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FF6BA8F9" Offset="0.003"/>
+                    <GradientStop Color="#FF8BEAE6" Offset="1"/>
+                </RadialGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Label x:Name="SplashParcentance" Content="%" HorizontalAlignment="Left" Margin="116,319,0,0" VerticalAlignment="Top" FontSize="20" FontFamily="Comic Sans MS">
+            <Label.Foreground>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FF6BA8F9" Offset="0.003"/>
+                    <GradientStop Color="#FF8BEAE6" Offset="1"/>
+                </RadialGradientBrush>
+            </Label.Foreground>
+        </Label>
+
+    </Grid>
+</Window>

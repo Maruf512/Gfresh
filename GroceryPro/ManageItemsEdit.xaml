@@ -1,0 +1,79 @@
+﻿<Window x:Class="GroceryPro.ManageItemsEdit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GroceryPro"
+        mc:Ignorable="d"
+        Title="Gfresh" Background="Transparent" ResizeMode="NoResize" Height="750" Width="1100" WindowStyle="None" Icon="/Images/groceries.png" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+    <Grid>
+        <Image Height="750" Width="1100" HorizontalAlignment="Center" VerticalAlignment="Top" Source="/Images/manage_bg.jpg" Stretch="Fill"/>
+        <Border Width="1100" Height="80" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#00000000" BorderThickness="0,0,0,1" BorderBrush="Black" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+            <TextBlock Text="Gfresh Shop Items" FontFamily="Comic Sans MS" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Image Source="/Images/groceries.png" Panel.ZIndex="2" Width="40" Height="40" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" />
+        <Image Source="/Images/Icon/close.png" Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Top" MouseUp="ExitApp" Margin="0,20,20,0"/>
+
+        <Grid Width="1100" Height="665" VerticalAlignment="Top" Margin="0,85,0,0" RenderTransformOrigin="0.585,0.434">
+            <TextBlock Text="Edit Items" HorizontalAlignment="Center" FontFamily="Comic Sans MS" FontSize="30" VerticalAlignment="Top" Margin="0,-4,0,0" />
+            <Border Width="1060" Height="180" BorderThickness="1,1,1,1" BorderBrush="Black" VerticalAlignment="Top" Margin="20,42,20,0"  />
+
+            <TextBlock Text="Item Name" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="166,60,0,0"/>
+            <TextBlock Text="Quantity" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="446,60,0,0"/>
+            <TextBlock Text="Price" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="685,60,0,0"/>
+            <TextBlock Text="Categories" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="878,60,0,0"/>
+            <TextBlock Text="ID" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="204,136,0,0"/>
+            <TextBlock Text="Note: Select an ID From Stock." FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,173,64,0" Opacity="0.5"/>
+
+            <TextBox x:Name="TextBoxID" PreviewTextInput="NumberValidationTextBox" Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="116,178,0,0"/>
+            <TextBox x:Name="ItemName" Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" Background="Transparent" BorderBrush="#FF505050" Margin="68,102,0,0"/>
+            <TextBox x:Name="Quantity" PreviewTextInput="NumberValidationTextBox" Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="388,102,0,0"/>
+            <TextBox x:Name="Price" PreviewTextInput="NumberValidationTextBox" Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="608,102,0,0"/>
+            <ComboBox x:Name="Catagory" Margin="828,102,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="30" FontFamily="Comic Sans MS" FontSize="18" HorizontalAlignment="Left" Width="200">
+                <ComboBoxItem Content="Meat"/>
+                <ComboBoxItem Content="Fruits"/>
+                <ComboBoxItem Content="Vegetables"/>
+            </ComboBox>
+
+            <Button Click="UpdateDB" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Content="Update" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="429,166,0,0"/>
+            <Button Click="ClearTextBox" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Content="Clear" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="563,166,0,0"/>
+            
+            
+            <TextBlock Text="Stock" FontFamily="Comic Sans MS" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,229,0,0"/>
+            <TextBlock Text="Filter By Category" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="321,273,0,0"/>
+
+            <ComboBox VerticalAlignment="Top" Background="{x:Null}" Height="30" FontFamily="Comic Sans MS" FontSize="18" HorizontalAlignment="Left" Width="200" Margin="550,276,0,0" RenderTransformOrigin="0.505,0.467">
+                <ComboBoxItem Content="Meat"/>
+            </ComboBox>
+
+            <Image Source="/Images/Icon/sync.png" Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,270,280,0" MouseUp="RefreshDBBtn"/>
+
+            <DataGrid x:Name="ItemsDbGridXAML" Width="1060" Height="250" FontFamily="Comic Sans MS" FontSize="20" Margin="20,318,20,97" BorderBrush="{x:Null}" IsEnabled="True" Background="{x:Null}" IsReadOnly="True" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" >
+                <!-- Font Color / Style of column Headings -->
+                <DataGrid.Resources>
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="Background" Value="#FF43A9FF"/>
+                        <Setter Property="BorderThickness" Value="0,0,1,2"/>
+                        <Setter Property="BorderBrush" Value="Black"/>
+
+                    </Style>
+                </DataGrid.Resources>
+                <!-- Header and Binding -->
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Width="80" Binding="{Binding ID}"/>
+                    <DataGridTextColumn Header="Items" Width="500" Binding="{Binding Items}"/>
+                    <DataGridTextColumn Header="Price" Width="150" Binding="{Binding Price}"/>
+                    <DataGridTextColumn Header="Quantity" Width="150" Binding="{Binding Quantity}"/>
+                    <DataGridTextColumn Header="Catagory" Width="*" Binding="{Binding Catagory}"/>
+
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Button Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Content="OK" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Center" VerticalAlignment="Bottom" Padding="15 5" Margin="0,0,0,20" Click="SwitchToManageItem"/>
+            
+
+
+
+        </Grid>
+    </Grid>
+</Window>
