@@ -68,7 +68,7 @@ namespace GroceryPro
 
         private void readDataFromDB()
         {
-            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\Documents\\GroceryDB.mdf;Integrated Security=True;Connect Timeout=30";
+            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\Documents\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             String sql = "SELECT ItId,ItName,ItQty,ItPrice,ItCat FROM ItemTbl";
             SqlConnection cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -208,7 +208,7 @@ namespace GroceryPro
                 {
                     try
                     {
-                        String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\Documents\\GroceryDB.mdf;Integrated Security=True;Connect Timeout=30";
+                        String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\Documents\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
                         SqlDataAdapter adapter = new SqlDataAdapter(); // for adding value
                         String sql = $"UPDATE ItemTbl SET {itemname}{coma1}{price}{coma2}{quantity}{coma3}{catagory} WHERE ItId={TextBoxID.Text}";
 
