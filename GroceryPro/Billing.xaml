@@ -30,13 +30,13 @@
             <TextBlock Text="" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="637,0,290,0" Padding="10,5,10,5"/>
 
             <!--- Text Box (Input Fields) -->
-            <TextBox Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="10,120,0,0"/>
+            <TextBox x:Name="ItemName" Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="10,120,0,0"/>
             <TextBox Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="10,204,0,0"/>
             <TextBox Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="248,120,0,0"/>
             <TextBox Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="248,204,0,0"/>
 
             <!--- Buttons -->
-            <Button Content="Add To Bill" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="33,250,0,0"/>
+            <Button Content="Add To Bill" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="33,250,0,0" Click="AddBill"/>
             <Button Content="Reset" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="295,250,0,0"/>
             <Button Content="Logout" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="15 5" Click="GotoLogoutWindow" />
             <Button Content="Print" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="15 5" Margin="0,0,120,0" Click="GotoInvoiceWindow"/>
@@ -44,7 +44,7 @@
             <Image Source="/Images/Icon/sync.png" Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,230,0"/>
 
             <!--- Left side Database Items Viewer -->
-            <DataGrid x:Name="ItemsDbGridXAML" Width="460" Height="260" FontFamily="Comic Sans MS" FontSize="20" Margin="0,325,0,60" BorderBrush="{x:Null}" IsEnabled="True" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
+            <DataGrid x:Name="ItemsDbGridXAML" Width="460" Height="260" FontFamily="Comic Sans MS" FontSize="20" Margin="0,325,0,60" BorderBrush="{x:Null}" IsEnabled="True" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Bottom" IsReadOnly="True" >
                 <!-- Font Color / Style of column Headings -->
                 <DataGrid.Resources>
                     <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -56,15 +56,15 @@
                 <!-- Header and Binding -->
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Width="40" Binding="{Binding ID}"/>
-                    <DataGridTextColumn Header="Items" Width="180" Binding="{Binding Items}"/>
-                    <DataGridTextColumn Header="Price" Width="80" Binding="{Binding Price}"/>
-                    <DataGridTextColumn Header="Qty" Width="90" Binding="{Binding Quantity}"/>
-                    <DataGridTextColumn Header="Total" Width="*" Binding="{Binding Total}"/>
+                    <DataGridTextColumn Header="Items" Width="160" Binding="{Binding Items}"/>
+                    <DataGridTextColumn Header="Price" Width="75" Binding="{Binding Price}"/>
+                    <DataGridTextColumn Header="Qty" Width="75" Binding="{Binding Quantity}"/>
+                    <DataGridTextColumn Header="Catagory" Width="*" Binding="{Binding Catagory}"/>
                 </DataGrid.Columns>
             </DataGrid>
 
             <!--- Right side of billing (Printable page) -->
-            <DataGrid x:Name="ItemsDbGridXAML_Copy" Width="580" Height="520" FontFamily="Comic Sans MS" FontSize="20" BorderBrush="{x:Null}" IsEnabled="True" Background="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,60" >
+            <DataGrid x:Name="ItemsDbGridXAML_Copy" Width="580" Height="520" FontFamily="Comic Sans MS" FontSize="20" BorderBrush="{x:Null}" IsEnabled="True" Background="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,60" IsReadOnly="True" >
                 <!-- Font Color / Style of column Headings -->
                 <DataGrid.Resources>
                     <Style TargetType="{x:Type DataGridColumnHeader}">

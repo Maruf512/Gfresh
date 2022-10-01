@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.SqlClient;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace GroceryPro
 {
@@ -22,7 +13,60 @@ namespace GroceryPro
         public Billing()
         {
             InitializeComponent();
+
+            readDataFromDB();
         }
+
+        // Grid Vies Items List
+        public class AddItems
+        {
+            public int ID { get; set; }
+            public string Items { get; set; }
+            public int Price { get; set; }
+            public int Quantity { get; set; }
+            public string Catagory { get; set; }
+        }
+
+        private void readDataFromDB()
+        {
+            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\Documents\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+            String sql = "SELECT ItId,ItName,ItQty,ItPrice,ItCat FROM ItemTbl";
+            SqlConnection cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            SqlCommand command = new SqlCommand(sql, cnn);
+            SqlDataReader dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                AddItems item = new AddItems();
+
+                item.ID = (int)dataReader.GetValue(0);
+                item.Items = (string)dataReader.GetValue(1);
+                item.Quantity = (int)dataReader.GetValue(2);
+                item.Price = (int)dataReader.GetValue(3);
+                item.Catagory = (string)dataReader.GetValue(4);
+
+                ItemsDbGridXAML.Items.Add(item);
+            }
+
+            dataReader.Close();
+            command.Dispose();
+            cnn.Close();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         private void ExitBtn(object sender, MouseButtonEventArgs e)
         {
@@ -54,6 +98,11 @@ namespace GroceryPro
             this.Hide();
             Login login = new Login();
             login.Show();
+        }
+
+        private void AddBill(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
