@@ -14,7 +14,9 @@ namespace GroceryPro
         {
             InitializeComponent();
 
+
             readDataFromDB();
+            
         }
 
         // Grid Vies Items List
@@ -100,9 +102,39 @@ namespace GroceryPro
             login.Show();
         }
 
-        private void AddBill(object sender, RoutedEventArgs e)
+        private void AddCustomer(object sender, RoutedEventArgs e)
         {
+            // assign values of input fields to the db table
+            // read that data and show it in combobox
 
+            // get value from input fields
+            string CName = Customer_name.Text;
+
+            // add to combobox
+            CustomerDropDown.Items.Add("data");
+
+
+
+        }
+
+        // clear customer input fields
+        private void ClearFields(object sender, RoutedEventArgs e)
+        {
+            Customer_name.Text = "";
+            Customer_phone.Text = "";
+            Customer_Address.Text = "";
+            CustomerDropDown.SelectedIndex = 0;
+        }
+
+        // ===================== Billing Section ====================
+
+
+        // reset btn
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ItemDropDown.SelectedIndex = 0;
+            Bill_Quantity.Text = "";
+            Bill_Price.Text = "";
         }
     }
 }

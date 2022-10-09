@@ -17,34 +17,26 @@
 
         <!--- Main Grid -->
         <Grid Width="1060" Height="650" VerticalAlignment="Top" Margin="20,80,20,0">
-            <TextBlock Text="Billing" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            <Border Width="460" Height="240" BorderThickness="1" BorderBrush="Black" Opacity="0.8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,70,0,0" />
+            <Border Width="460" Height="250" BorderThickness="1" BorderBrush="Black" Opacity="0.8" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,50" />
 
             <!--- Text Block -->
-            <TextBlock Text="Item Name" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="48,80,0,0"/>
-            <TextBlock Text="Client Name" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="43,164,0,0"/>
-            <TextBlock Text="Quantity" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="293,80,0,0"/>
-            <TextBlock Text="Price" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="318,164,0,0"/>
-            <TextBlock Text="Total:" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,420,0" Padding="10,5,10,5"/>
-            <!-- Total Amount Field -->
-            <TextBlock Text="" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="637,0,290,0" Padding="10,5,10,5"/>
+            <TextBlock Text="Total:" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="477,607,0,0" Padding="10,5,10,5"/>
 
-            <!--- Text Box (Input Fields) -->
-            <TextBox x:Name="ItemName" Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="10,120,0,0"/>
-            <TextBox Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="10,204,0,0"/>
-            <TextBox Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="248,120,0,0"/>
-            <TextBox Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="248,204,0,0"/>
+            <TextBlock Text="Invoice" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="730,302,0,0"/>
+            <TextBlock Text="Billing" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="180,302,0,0"/>
+            <TextBlock Text="In Stock" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="722,0,0,0"/>
+
+            <!-- Total Amount Field -->
+            <TextBlock Text="" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="579,0,0,0" Padding="10,5,10,5"/>
 
             <!--- Buttons -->
-            <Button Content="Add To Bill" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="33,250,0,0" Click="AddBill"/>
-            <Button Content="Reset" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="295,250,0,0"/>
             <Button Content="Logout" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="15 5" Click="GotoLogoutWindow" />
             <Button Content="Print" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="15 5" Margin="0,0,120,0" Click="GotoInvoiceWindow"/>
             <!--- Refresh Database Button -->
             <Image Source="/Images/Icon/sync.png" Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,230,0"/>
 
             <!--- Left side Database Items Viewer -->
-            <DataGrid x:Name="ItemsDbGridXAML" Width="460" Height="260" FontFamily="Comic Sans MS" FontSize="20" Margin="0,325,0,60" BorderBrush="{x:Null}" IsEnabled="True" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Bottom" IsReadOnly="True" >
+            <DataGrid x:Name="ItemsDbGridXAML" Width="580" Height="250" FontFamily="Comic Sans MS" FontSize="20" Margin="480,42,0,0" BorderBrush="{x:Null}" IsEnabled="True" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True" >
                 <!-- Font Color / Style of column Headings -->
                 <DataGrid.Resources>
                     <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -64,7 +56,7 @@
             </DataGrid>
 
             <!--- Right side of billing (Printable page) -->
-            <DataGrid x:Name="ItemsDbGridXAML_Copy" Width="580" Height="520" FontFamily="Comic Sans MS" FontSize="20" BorderBrush="{x:Null}" IsEnabled="True" Background="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,60" IsReadOnly="True" >
+            <DataGrid x:Name="ItemsDbGridXAML_Copy" Width="580" Height="250" FontFamily="Comic Sans MS" FontSize="20" BorderBrush="{x:Null}" IsEnabled="True" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="480,349,0,0" IsReadOnly="True" >
                 <!-- Font Color / Style of column Headings -->
                 <DataGrid.Resources>
                     <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -82,9 +74,47 @@
                     <DataGridTextColumn Header="Total" Width="*" Binding="{Binding Total}"/>
                 </DataGrid.Columns>
             </DataGrid>
+
+            <!--================================ Customer Info Section ================================-->
+            <TextBlock Text="Customer Info" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,0,0,0"/>
+            <Border Width="460" Height="250" BorderThickness="1" BorderBrush="Black" Opacity="0.8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,40,0,0" />
+            
+            <TextBlock Text="Name" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="85,54,0,0"/>
+            <TextBox x:Name="Customer_name" Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="16,94,0,0"/>
+            
+            <TextBlock Text="Phone" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="317,54,0,0"/>
+            <TextBox x:Name="Customer_phone" Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="248,94,0,0"/>
+
+            <TextBlock Text="Address" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="77,140,0,0"/>
+            <TextBox x:Name="Customer_Address" Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="16,180,0,0"/>
+
+            <!-- Customer Dropdown -->
+            <TextBlock Text="Customer" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="305,135,0,0"/>
+            <ComboBox x:Name="CustomerDropDown" Margin="248,180,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="30" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" Width="200" AlternationCount="0">
+                <ComboBoxItem Content="Select or add" IsSelected="True"/>
+            </ComboBox>
+
+            <Button Content="Add" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="33,234,0,0" Click="AddCustomer"/>
+            <Button Content="Clear" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="337,232,0,0" Click="ClearFields"/>
+
+            <!--============================== Billing Section ==============================-->
+            <TextBlock Text="Item" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="95,354,0,0"/>
+            <!-- Item Dropdown -->
+            <ComboBox x:Name="ItemDropDown" Margin="24,398,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="30" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" Width="200">
+                <ComboBoxItem Content="Select an item..." IsSelected="True"/>
+            </ComboBox>
+
+            <TextBlock Text="Quantity" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="291,358,0,0"/>
+            <TextBox x:Name="Bill_Quantity" Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="242,398,0,0"/>
+
+            <TextBlock Text="Price" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="201,448,0,0"/>
+            <TextBox x:Name="Bill_Price" Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="130,488,0,0"/>
+
+            <Button Content="Add To Bill" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="21,544,0,0"/>
+            <Button Content="Reset" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="341,542,0,0" Click="Button_Click"/>
+
+            
             
         </Grid>
-
     </Grid>
-
 </Window>
