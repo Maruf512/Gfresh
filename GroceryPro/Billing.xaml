@@ -90,9 +90,8 @@
 
             <!-- Customer Dropdown -->
             <TextBlock Text="Customer" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="305,135,0,0"/>
-            <ComboBox x:Name="CustomerDropDown" Margin="248,180,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="30" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" Width="200" AlternationCount="0">
-                <ComboBoxItem Content="Select or add" IsSelected="True"/>
-            </ComboBox>
+            <ComboBox x:Name="CustomerDropDown" Margin="248,180,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="30" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" Width="200" AlternationCount="0" />
+
 
             <Button Content="Add" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="33,234,0,0" Click="AddCustomer"/>
             <Button Content="Clear" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="337,232,0,0" Click="ClearFields"/>
@@ -100,9 +99,7 @@
             <!--============================== Billing Section ==============================-->
             <TextBlock Text="Item" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="95,354,0,0"/>
             <!-- Item Dropdown -->
-            <ComboBox x:Name="ItemDropDown" Margin="24,398,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="30" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" Width="200">
-                <ComboBoxItem Content="Select an item..." IsSelected="True"/>
-            </ComboBox>
+            <ComboBox x:Name="ItemDropDown" Margin="24,398,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="30" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" Width="200" />
 
             <TextBlock Text="Quantity" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="291,358,0,0"/>
             <TextBox x:Name="Bill_Quantity" Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="242,398,0,0"/>
@@ -111,7 +108,7 @@
             <TextBox x:Name="Bill_Price" Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="130,488,0,0"/>
 
             <Button Content="Add To Bill" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="21,544,0,0"/>
-            <Button Content="Reset" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="341,542,0,0" Click="Button_Click"/>
+            <Button Content="Reset" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="341,542,0,0" Click="BillResetFields"/>
 
             
             

@@ -2,6 +2,7 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace GroceryPro
 {
@@ -14,9 +15,12 @@ namespace GroceryPro
         {
             InitializeComponent();
 
-
+            // get data for instock
             readDataFromDB();
-            
+            // get data from db for Customer name
+            RefreshComboBox();
+
+
         }
 
         // Grid Vies Items List
@@ -28,6 +32,8 @@ namespace GroceryPro
             public int Quantity { get; set; }
             public string Catagory { get; set; }
         }
+
+        // ========================= Local Functions ======================
 
         private void readDataFromDB()
         {
@@ -55,17 +61,41 @@ namespace GroceryPro
             cnn.Close();
         }
 
+        private void ClearCustomerFields()
+        {
+            Customer_name.Text = "";
+            Customer_phone.Text = "";
+            Customer_Address.Text = "";
+            CustomerDropDown.Text = "";
+        }
 
+        // add data to combobox or refresh from db
+        private void RefreshComboBox()
+        {
+            // clear Customer Name dropdown before updating
+            CustomerDropDown.Items.Clear();
 
+            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\Documents\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+            String sql = "SELECT CName FROM CustomerInfo";
+            SqlConnection cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            SqlCommand command = new SqlCommand(sql, cnn);
+            SqlDataReader dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                AddItems item = new AddItems();
 
+                String CustomerData = (string)dataReader.GetValue(0);
 
+                // add data to combobox
+                CustomerDropDown.Items.Add(CustomerData);
 
+            }
 
-
-
-
-
-
+            dataReader.Close();
+            command.Dispose();
+            cnn.Close();
+        }
 
 
 
@@ -102,16 +132,49 @@ namespace GroceryPro
             login.Show();
         }
 
+
+        
+
+
+        // Customer section
         private void AddCustomer(object sender, RoutedEventArgs e)
         {
             // assign values of input fields to the db table
             // read that data and show it in combobox
 
-            // get value from input fields
-            string CName = Customer_name.Text;
-
             // add to combobox
-            CustomerDropDown.Items.Add("data");
+            
+
+
+            // assign data to db
+            if (Customer_name.Text != "" && Customer_phone.Text != "" && Customer_Address.Text != "")
+            {
+                String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\Documents\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+                String sql = $"INSERT INTO CustomerInfo (CName,CPhone,CAddress) VALUES('{Customer_name.Text}',{Customer_phone.Text},'{Customer_Address.Text}')";
+                SqlDataAdapter adapter = new SqlDataAdapter(); // for adding value
+
+
+                SqlConnection cnn = new SqlConnection(connectionString);
+
+                cnn.Open();
+                SqlCommand command = new SqlCommand(sql, cnn);
+
+                adapter.InsertCommand = new SqlCommand(sql, cnn);
+                adapter.InsertCommand.ExecuteNonQuery();
+
+                command.Dispose();
+                cnn.Close();
+
+                // refresh combobox
+                RefreshComboBox();
+
+                // clear all the fields
+                ClearCustomerFields();
+            }
+            else
+            {
+                MessageBox.Show("Empty Fields !!");
+            }
 
 
 
@@ -120,17 +183,14 @@ namespace GroceryPro
         // clear customer input fields
         private void ClearFields(object sender, RoutedEventArgs e)
         {
-            Customer_name.Text = "";
-            Customer_phone.Text = "";
-            Customer_Address.Text = "";
-            CustomerDropDown.SelectedIndex = 0;
+            ClearCustomerFields();
         }
 
         // ===================== Billing Section ====================
 
 
         // reset btn
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void BillResetFields(object sender, RoutedEventArgs e)
         {
             ItemDropDown.SelectedIndex = 0;
             Bill_Quantity.Text = "";
