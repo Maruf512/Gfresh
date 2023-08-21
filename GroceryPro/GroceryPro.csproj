@@ -96,11 +96,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="GforceDBDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GforceDBDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="ManageItemsEdit.xaml.cs">
       <DependentUpon>ManageItemsEdit.xaml</DependentUpon>
     </Compile>
@@ -167,17 +162,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="GforceDBDataSet.xsc">
-      <DependentUpon>GforceDBDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="GforceDBDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>GforceDBDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="GforceDBDataSet.xss">
-      <DependentUpon>GforceDBDataSet.xsd</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

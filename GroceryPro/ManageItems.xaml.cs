@@ -68,7 +68,7 @@ namespace GroceryPro
 
         private void readDataFromDB()
         {
-            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\Documents\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             String sql = "SELECT ItId,ItName,ItQty,ItPrice,ItCat FROM ItemTbl";
             SqlConnection cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -99,7 +99,7 @@ namespace GroceryPro
 
             if (ItemName.Text != "" && Quantity.Text != "" && Price.Text != "" && Catagory.Text != "")
             {
-                String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\Documents\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+                String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
                 String sql = $"INSERT INTO ItemTbl (ItName,ItQty,ItPrice,ItCat) VALUES('{ItemName.Text}',{Quantity.Text},{Price.Text},'{Catagory.Text}')";
                 SqlDataAdapter adapter = new SqlDataAdapter(); // for adding value
 
@@ -150,7 +150,7 @@ namespace GroceryPro
 
         private void deleteDataFromDb(string id)
         {
-            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\Documents\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             SqlDataAdapter adapter = new SqlDataAdapter();
             SqlCommand command = new SqlCommand();
 
@@ -172,7 +172,7 @@ namespace GroceryPro
 
         private void DeletRow(object sender, RoutedEventArgs e)
         {
-            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\Documents\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             String sql = "SELECT ItId,ItName,ItQty,ItPrice,ItCat FROM ItemTbl";
             SqlConnection cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -205,7 +205,7 @@ namespace GroceryPro
 
         private void updateDb(string id, string parameter, string data)
         {
-            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\Documents\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             SqlDataAdapter adapter = new SqlDataAdapter();
             SqlCommand command = new SqlCommand();
 

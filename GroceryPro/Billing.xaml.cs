@@ -37,7 +37,7 @@ namespace GroceryPro
 
         private void readDataFromDB()
         {
-            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\Documents\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             String sql = "SELECT ItId,ItName,ItQty,ItPrice,ItCat FROM ItemTbl";
             SqlConnection cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -75,7 +75,7 @@ namespace GroceryPro
             // clear Customer Name dropdown before updating
             CustomerDropDown.Items.Clear();
 
-            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\Documents\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             String sql = "SELECT CName FROM CustomerInfo";
             SqlConnection cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -149,7 +149,7 @@ namespace GroceryPro
             // assign data to db
             if (Customer_name.Text != "" && Customer_phone.Text != "" && Customer_Address.Text != "")
             {
-                String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\Documents\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+                String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
                 String sql = $"INSERT INTO CustomerInfo (CName,CPhone,CAddress) VALUES('{Customer_name.Text}',{Customer_phone.Text},'{Customer_Address.Text}')";
                 SqlDataAdapter adapter = new SqlDataAdapter(); // for adding value
 
