@@ -185,7 +185,12 @@ namespace GroceryPro
         // clear customer input fields
         private void ClearFields(object sender, RoutedEventArgs e)
         {
-            ClearCustomerFields();
+            Customer_name.Text = "";
+            Customer_phone.Text = "";
+            Customer_Address.Text = "";
+            CustomerDropDown.SelectedItem = null;
+
+            AddBillBtn.IsEnabled = true;
         }
 
         // ===================== Billing Section ====================
@@ -203,7 +208,6 @@ namespace GroceryPro
             SqlDataReader dataReader = command.ExecuteReader();
             while (dataReader.Read())
             {
-                AddItems item = new AddItems();
 
                 String CustomerData = (string)dataReader.GetValue(0);
 
@@ -262,8 +266,51 @@ namespace GroceryPro
             cnn.Close();
         }
 
+        private void CustomerDropDown_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            try
+            {
+                string SelectedInfo = CustomerDropDown.SelectedItem.ToString();
 
+                String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+                String processSqlCmd = "SELECT * FROM CustomerInfo";
 
+                String sql = processSqlCmd;
+                SqlConnection cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                SqlCommand command = new SqlCommand(sql, cnn);
+                SqlDataReader dataReader = command.ExecuteReader();
+                while (dataReader.Read())
+                {
 
+                    String CustomerName = (string)dataReader.GetValue(1);
+
+                    if (CustomerName == SelectedInfo)
+                    {
+                        int CustomerPhone = (int)dataReader.GetValue(2);
+                        String CustomerAddress = (String)dataReader.GetValue(3);
+
+                        Customer_name.Text = CustomerName;
+                        Customer_phone.Text = CustomerPhone.ToString();
+                        Customer_Address.Text = CustomerAddress.ToString();
+
+                        AddBillBtn.IsEnabled = false;
+
+                    }
+
+                }
+                dataReader.Close();
+                command.Dispose();
+                cnn.Close();
+            }
+            catch (NullReferenceException)
+            {
+                AddBillBtn.IsEnabled = true;
+            }
+
+            
+            
+            
+        }
     }
 }
