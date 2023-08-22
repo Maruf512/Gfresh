@@ -194,8 +194,6 @@ namespace GroceryPro
         // =====================================
         private void ReadFromDB()
         {
-            // clear Customer Name dropdown before updating
-            CustomerDropDown.Items.Clear();
 
             String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             String sql = "SELECT ItName FROM ItemTbl";
@@ -235,10 +233,6 @@ namespace GroceryPro
         {
 
             string SelectedItem = ItemDropDown.SelectedItem.ToString();
-
-
-            // read data from ItemTbl and set it to bill price and qty field's
-            CustomerDropDown.Items.Clear();
 
             String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             String processSqlCmd = "SELECT * FROM ItemTbl";
