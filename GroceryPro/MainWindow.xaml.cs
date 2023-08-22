@@ -28,7 +28,7 @@ namespace GroceryPro
 
         private async void ProgressBarss()
         {
-            double progress = 0.2;
+            double progress = 0.5;
             double countDown = 0;
             while (SplashProgress.Value != 100)
             {

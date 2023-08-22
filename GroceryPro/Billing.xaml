@@ -99,7 +99,7 @@
             <!--============================== Billing Section ==============================-->
             <TextBlock Text="Item" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="95,354,0,0"/>
             <!-- Item Dropdown -->
-            <ComboBox x:Name="ItemDropDown" Margin="24,398,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="30" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" Width="200" />
+            <ComboBox x:Name="ItemDropDown" Margin="24,398,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="30" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" Width="200" SelectionChanged="ItemDropDown_SelectionChanged"/>
 
             <TextBlock Text="Quantity" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="291,358,0,0"/>
             <TextBox x:Name="Bill_Quantity" Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="242,398,0,0"/>

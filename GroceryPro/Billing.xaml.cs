@@ -19,7 +19,8 @@ namespace GroceryPro
             readDataFromDB();
             // get data from db for Customer name
             RefreshComboBox();
-
+            // get data from db for item's list
+            ReadFromDB();
 
         }
 
@@ -89,6 +90,7 @@ namespace GroceryPro
 
                 // add data to combobox
                 CustomerDropDown.Items.Add(CustomerData);
+
 
             }
 
@@ -187,6 +189,37 @@ namespace GroceryPro
         }
 
         // ===================== Billing Section ====================
+        // ====== Recive data from db [ItemTbl] Table
+        // ====== and add it to billing sections combobox
+        // =====================================
+        private void ReadFromDB()
+        {
+            // clear Customer Name dropdown before updating
+            CustomerDropDown.Items.Clear();
+
+            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+            String sql = "SELECT ItName FROM ItemTbl";
+            SqlConnection cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            SqlCommand command = new SqlCommand(sql, cnn);
+            SqlDataReader dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+                AddItems item = new AddItems();
+
+                String CustomerData = (string)dataReader.GetValue(0);
+
+                // add data to combobox
+                ItemDropDown.Items.Add(CustomerData);
+
+
+            }
+
+            dataReader.Close();
+            command.Dispose();
+            cnn.Close();
+        }
+
 
 
         // reset btn
@@ -196,5 +229,47 @@ namespace GroceryPro
             Bill_Quantity.Text = "";
             Bill_Price.Text = "";
         }
+
+        // ====================== Item Select Event handeller =====================
+        private void ItemDropDown_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+            string SelectedItem = ItemDropDown.SelectedItem.ToString();
+
+
+            // read data from ItemTbl and set it to bill price and qty field's
+            CustomerDropDown.Items.Clear();
+
+            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+            String processSqlCmd = "SELECT * FROM ItemTbl";
+
+            String sql = processSqlCmd;
+            SqlConnection cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            SqlCommand command = new SqlCommand(sql, cnn);
+            SqlDataReader dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+
+                String ItemName = (string)dataReader.GetValue(1);
+
+                if (ItemName == SelectedItem)
+                {
+                    int ItemQty = (int)dataReader.GetValue(2);
+                    int ItemPrice = (int)dataReader.GetValue(3);
+
+                    Bill_Quantity.Text = ItemQty.ToString();
+                    Bill_Price.Text = ItemPrice.ToString();
+                }
+
+            }
+            dataReader.Close();
+            command.Dispose();
+            cnn.Close();
+        }
+
+
+
+
     }
 }
