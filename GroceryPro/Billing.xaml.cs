@@ -3,6 +3,8 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Diagnostics;
+using System.Windows.Controls;
+
 
 namespace GroceryPro
 {
@@ -188,7 +190,7 @@ namespace GroceryPro
             Customer_name.Text = "";
             Customer_phone.Text = "";
             Customer_Address.Text = "";
-            CustomerDropDown.SelectedItem = null;
+            CustomerDropDown.SelectedIndex = -1;
 
             AddBillBtn.IsEnabled = true;
         }
@@ -199,6 +201,7 @@ namespace GroceryPro
         // =====================================
         private void ReadFromDB()
         {
+
 
             String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             String sql = "SELECT ItName FROM ItemTbl";
@@ -227,7 +230,7 @@ namespace GroceryPro
         // reset btn
         private void BillResetFields(object sender, RoutedEventArgs e)
         {
-            ItemDropDown.SelectedIndex = 0;
+            ItemDropDown.SelectedIndex = -1;
             Bill_Quantity.Text = "";
             Bill_Price.Text = "";
         }
@@ -236,44 +239,12 @@ namespace GroceryPro
         private void ItemDropDown_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
 
-            string SelectedItem = ItemDropDown.SelectedItem.ToString();
-
-            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
-            String processSqlCmd = "SELECT * FROM ItemTbl";
-
-            String sql = processSqlCmd;
-            SqlConnection cnn = new SqlConnection(connectionString);
-            cnn.Open();
-            SqlCommand command = new SqlCommand(sql, cnn);
-            SqlDataReader dataReader = command.ExecuteReader();
-            while (dataReader.Read())
+            if (ItemDropDown.SelectedIndex != -1)
             {
-
-                String ItemName = (string)dataReader.GetValue(1);
-
-                if (ItemName == SelectedItem)
-                {
-                    int ItemQty = (int)dataReader.GetValue(2);
-                    int ItemPrice = (int)dataReader.GetValue(3);
-
-                    Bill_Quantity.Text = ItemQty.ToString();
-                    Bill_Price.Text = ItemPrice.ToString();
-                }
-
-            }
-            dataReader.Close();
-            command.Dispose();
-            cnn.Close();
-        }
-
-        private void CustomerDropDown_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-            try
-            {
-                string SelectedInfo = CustomerDropDown.SelectedItem.ToString();
+                string SelectedItem = ItemDropDown.SelectedItem.ToString();
 
                 String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
-                String processSqlCmd = "SELECT * FROM CustomerInfo";
+                String processSqlCmd = "SELECT * FROM ItemTbl";
 
                 String sql = processSqlCmd;
                 SqlConnection cnn = new SqlConnection(connectionString);
@@ -283,19 +254,15 @@ namespace GroceryPro
                 while (dataReader.Read())
                 {
 
-                    String CustomerName = (string)dataReader.GetValue(1);
+                    String ItemName = (string)dataReader.GetValue(1);
 
-                    if (CustomerName == SelectedInfo)
+                    if (ItemName == SelectedItem)
                     {
-                        int CustomerPhone = (int)dataReader.GetValue(2);
-                        String CustomerAddress = (String)dataReader.GetValue(3);
+                        int ItemQty = (int)dataReader.GetValue(2);
+                        int ItemPrice = (int)dataReader.GetValue(3);
 
-                        Customer_name.Text = CustomerName;
-                        Customer_phone.Text = CustomerPhone.ToString();
-                        Customer_Address.Text = CustomerAddress.ToString();
-
-                        AddBillBtn.IsEnabled = false;
-
+                        Bill_Quantity.Text = ItemQty.ToString();
+                        Bill_Price.Text = ItemPrice.ToString();
                     }
 
                 }
@@ -303,8 +270,67 @@ namespace GroceryPro
                 command.Dispose();
                 cnn.Close();
             }
-            catch (NullReferenceException)
+            else if(ItemDropDown.SelectedIndex == -1)
             {
+                ItemDropDown.SelectedIndex = -1;
+                Bill_Quantity.Text = "";
+                Bill_Price.Text = "";
+            }
+            
+        }
+
+        private void CustomerDropDown_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if(CustomerDropDown.SelectedIndex != -1)
+            {
+                try
+                {
+                    string SelectedInfo = "";
+                    SelectedInfo = CustomerDropDown.SelectedItem.ToString();
+
+                    String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+                    String processSqlCmd = "SELECT * FROM CustomerInfo";
+
+                    String sql = processSqlCmd;
+                    SqlConnection cnn = new SqlConnection(connectionString);
+                    cnn.Open();
+                    SqlCommand command = new SqlCommand(sql, cnn);
+                    SqlDataReader dataReader = command.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+
+                        String CustomerName = (string)dataReader.GetValue(1);
+
+                        if (CustomerName == SelectedInfo)
+                        {
+                            int CustomerPhone = (int)dataReader.GetValue(2);
+                            String CustomerAddress = (String)dataReader.GetValue(3);
+
+                            Customer_name.Text = CustomerName;
+                            Customer_phone.Text = CustomerPhone.ToString();
+                            Customer_Address.Text = CustomerAddress.ToString();
+
+                            AddBillBtn.IsEnabled = false;
+
+                        }
+
+                    }
+                    dataReader.Close();
+                    command.Dispose();
+                    cnn.Close();
+                }
+                catch (NullReferenceException)
+                {
+                    AddBillBtn.IsEnabled = true;
+                }
+            }
+            else if(CustomerDropDown.SelectedIndex == -1)
+            {
+                Customer_name.Text = "";
+                Customer_phone.Text = "";
+                Customer_Address.Text = "";
+                CustomerDropDown.SelectedIndex = -1;
+
                 AddBillBtn.IsEnabled = true;
             }
 
@@ -312,5 +338,7 @@ namespace GroceryPro
             
             
         }
+
+
     }
 }

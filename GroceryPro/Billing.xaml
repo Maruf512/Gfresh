@@ -47,9 +47,9 @@
                 </DataGrid.Resources>
                 <!-- Header and Binding -->
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Width="40" Binding="{Binding ID}"/>
-                    <DataGridTextColumn Header="Items" Width="160" Binding="{Binding Items}"/>
-                    <DataGridTextColumn Header="Price" Width="75" Binding="{Binding Price}"/>
+                    <DataGridTextColumn Header="ID" Width="60" Binding="{Binding ID}"/>
+                    <DataGridTextColumn Header="Items" Width="200" Binding="{Binding Items}"/>
+                    <DataGridTextColumn Header="Price" Width="80" Binding="{Binding Price}"/>
                     <DataGridTextColumn Header="Qty" Width="75" Binding="{Binding Quantity}"/>
                     <DataGridTextColumn Header="Catagory" Width="*" Binding="{Binding Catagory}"/>
                 </DataGrid.Columns>
@@ -90,7 +90,7 @@
 
             <!-- Customer Dropdown -->
             <TextBlock Text="Customer" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="305,135,0,0"/>
-            <ComboBox x:Name="CustomerDropDown" Margin="248,180,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="30" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" Width="200" AlternationCount="0" SelectionChanged="CustomerDropDown_SelectionChanged" />
+            <ComboBox x:Name="CustomerDropDown" Margin="248,180,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="30" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" Width="200" AlternationCount="0" SelectionChanged="CustomerDropDown_SelectionChanged" MaxDropDownHeight="200" IsEditable="True" />
 
 
             <Button Content="Add" x:Name="AddBillBtn" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="33,234,0,0" Click="AddCustomer"/>
@@ -99,7 +99,7 @@
             <!--============================== Billing Section ==============================-->
             <TextBlock Text="Item" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="95,354,0,0"/>
             <!-- Item Dropdown -->
-            <ComboBox x:Name="ItemDropDown" Margin="24,398,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="30" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" Width="200" SelectionChanged="ItemDropDown_SelectionChanged"/>
+            <ComboBox x:Name="ItemDropDown" Margin="24,398,0,0" VerticalAlignment="Top" Background="{x:Null}" Height="35" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" Width="200" SelectionChanged="ItemDropDown_SelectionChanged" MaxDropDownHeight="200" IsEditable="True"/>
 
             <TextBlock Text="Quantity" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="291,358,0,0"/>
             <TextBox x:Name="Bill_Quantity" Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="242,398,0,0"/>
