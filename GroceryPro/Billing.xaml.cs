@@ -26,7 +26,7 @@ namespace GroceryPro
 
         }
 
-        // Grid Vies Items List
+        // Grid Views Items List
         public class AddItems
         {
             public int ID { get; set; }
@@ -35,10 +35,20 @@ namespace GroceryPro
             public int Quantity { get; set; }
             public string Catagory { get; set; }
         }
+        // Grid Views Billing List
+        public class AddBill
+        {
+            public int ID { get; set; }
+            public string Items { get; set; }
+            public int Price { get; set; }
+            public int Quantity { get; set; }
+            public int Total { get; set; }
 
-        // ========================= Local Functions ======================
+        }
 
-        private void readDataFromDB()
+            // ========================= Local Functions ======================
+
+            private void readDataFromDB()
         {
             String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             String sql = "SELECT ItId,ItName,ItQty,ItPrice,ItCat FROM ItemTbl";
@@ -143,41 +153,70 @@ namespace GroceryPro
         // Customer section
         private void AddCustomer(object sender, RoutedEventArgs e)
         {
-            // assign values of input fields to the db table
-            // read that data and show it in combobox
+            bool dataExists = false;
 
-            // add to combobox
-            
+            // Check db if data exists or not
+            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+            String sql = "SELECT CName FROM CustomerInfo";
+            SqlConnection cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            SqlCommand command = new SqlCommand(sql, cnn);
+            SqlDataReader dataReader = command.ExecuteReader();
+            while (dataReader.Read())
+            {
+
+                String CustomerData = (string)dataReader.GetValue(0);
+
+                if (Customer_name.Text == CustomerData)
+                {
+                    dataExists = true;
+                }
+
+
+            }
+
+            dataReader.Close();
+            command.Dispose();
+            cnn.Close();
+
+
 
 
             // assign data to db
-            if (Customer_name.Text != "" && Customer_phone.Text != "" && Customer_Address.Text != "")
+            if (dataExists)
             {
-                String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
-                String sql = $"INSERT INTO CustomerInfo (CName,CPhone,CAddress) VALUES('{Customer_name.Text}',{Customer_phone.Text},'{Customer_Address.Text}')";
-                SqlDataAdapter adapter = new SqlDataAdapter(); // for adding value
-
-
-                SqlConnection cnn = new SqlConnection(connectionString);
-
-                cnn.Open();
-                SqlCommand command = new SqlCommand(sql, cnn);
-
-                adapter.InsertCommand = new SqlCommand(sql, cnn);
-                adapter.InsertCommand.ExecuteNonQuery();
-
-                command.Dispose();
-                cnn.Close();
-
-                // refresh combobox
-                RefreshComboBox();
-
-                // clear all the fields
-                ClearCustomerFields();
+                MessageBox.Show("Data Exists");
             }
             else
             {
-                MessageBox.Show("Empty Fields !!");
+                if (Customer_name.Text != "" && Customer_phone.Text != "" && Customer_Address.Text != "")
+                {
+                    String connectionString2 = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+                    String sql2 = $"INSERT INTO CustomerInfo (CName,CPhone,CAddress) VALUES('{Customer_name.Text}',{Customer_phone.Text},'{Customer_Address.Text}')";
+                    SqlDataAdapter adapter = new SqlDataAdapter(); // for adding value
+
+
+                    SqlConnection cnn2 = new SqlConnection(connectionString2);
+
+                    cnn2.Open();
+                    SqlCommand command2 = new SqlCommand(sql2, cnn2);
+
+                    adapter.InsertCommand = new SqlCommand(sql2, cnn2);
+                    adapter.InsertCommand.ExecuteNonQuery();
+
+                    command2.Dispose();
+                    cnn2.Close();
+
+                    // refresh combobox
+                    RefreshComboBox();
+
+                    // clear all the fields
+                    ClearCustomerFields();
+                }
+                else
+                {
+                    MessageBox.Show("Empty Fields !!");
+                }
             }
 
 
@@ -339,6 +378,10 @@ namespace GroceryPro
             
         }
 
+        private void AddToBill(object sender, RoutedEventArgs e)
+        {
 
+            
+        }
     }
 }

@@ -107,7 +107,7 @@
             <TextBlock Text="Price" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="201,448,0,0"/>
             <TextBox x:Name="Bill_Price" Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="130,488,0,0"/>
 
-            <Button Content="Add To Bill" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="21,544,0,0"/>
+            <Button Content="Add To Bill" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="21,544,0,0" Click="AddToBill"/>
             <Button Content="Reset" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="341,542,0,0" Click="BillResetFields"/>
 
             
