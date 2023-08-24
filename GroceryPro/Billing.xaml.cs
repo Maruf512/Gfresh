@@ -35,16 +35,7 @@ namespace GroceryPro
             public int Quantity { get; set; }
             public string Catagory { get; set; }
         }
-        // Grid Views Billing List
-        public class AddBill
-        {
-            public int ID { get; set; }
-            public string Items { get; set; }
-            public int Price { get; set; }
-            public int Quantity { get; set; }
-            public int Total { get; set; }
-
-        }
+        
 
             // ========================= Local Functions ======================
 
@@ -378,10 +369,72 @@ namespace GroceryPro
             
         }
 
+
+        // Grid Views Billing List
+        public class AddBill
+        {
+            public int ID { get; set; }
+            public string Items { get; set; }
+            public int Price { get; set; }
+            public int Quantity { get; set; }
+            public int Total { get; set; }
+
+        }
+
+        int Total = 0;
+
         private void AddToBill(object sender, RoutedEventArgs e)
         {
 
+            if(ItemDropDown.SelectedIndex != -1)
+            {
+                string SelectedItem = ItemDropDown.SelectedItem.ToString();
+
+                String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+                String processSqlCmd = "SELECT * FROM ItemTbl";
+
+                String sql = processSqlCmd;
+                SqlConnection cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                SqlCommand command = new SqlCommand(sql, cnn);
+                SqlDataReader dataReader = command.ExecuteReader();
+                while (dataReader.Read())
+                {
+
+                    String ItemName = (string)dataReader.GetValue(1);
+
+                    if (ItemName == SelectedItem)
+                    {
+                        AddBill item = new AddBill();
+
+                        item.ID = (int)dataReader.GetValue(0);
+                        item.Items = (string)dataReader.GetValue(1);
+                        item.Quantity = (int)dataReader.GetValue(2);
+                        item.Price = (int)dataReader.GetValue(3);
+                        String itemTotal = Bill_Price.Text.ToString();
+                        item.Total = Total + Int32.Parse(itemTotal);
+
+                        ItemsDbBillGridXAML.Items.Add(item);
+
+                        Total = Total + Int32.Parse(itemTotal);
+
+                    }
+
+                }
+                dataReader.Close();
+                command.Dispose();
+                cnn.Close();
+
+            }
+            else
+            {
+                MessageBox.Show("Select an Item.");
+            }
+
+
+
             
+
         }
     }
 }

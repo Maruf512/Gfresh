@@ -56,7 +56,7 @@
             </DataGrid>
 
             <!--- Right side of billing (Printable page) -->
-            <DataGrid x:Name="ItemsDbGridXAML_Copy" Width="580" Height="250" FontFamily="Comic Sans MS" FontSize="20" BorderBrush="{x:Null}" IsEnabled="True" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="480,349,0,0" IsReadOnly="True" >
+            <DataGrid x:Name="ItemsDbBillGridXAML" Width="580" Height="250" FontFamily="Comic Sans MS" FontSize="20" BorderBrush="{x:Null}" IsEnabled="True" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="480,349,0,0" IsReadOnly="True" >
                 <!-- Font Color / Style of column Headings -->
                 <DataGrid.Resources>
                     <Style TargetType="{x:Type DataGridColumnHeader}">
