@@ -374,14 +374,15 @@ namespace GroceryPro
         public class AddBill
         {
             public int ID { get; set; }
-            public string Items { get; set; }
+            public string Item { get; set; }
             public int Price { get; set; }
             public int Quantity { get; set; }
             public int Total { get; set; }
 
         }
 
-        int Total = 0;
+        int counter = 0;
+        int TotalBill = 0;
 
         private void AddToBill(object sender, RoutedEventArgs e)
         {
@@ -405,18 +406,26 @@ namespace GroceryPro
 
                     if (ItemName == SelectedItem)
                     {
+                        // datagrid object
                         AddBill item = new AddBill();
+                        // process data
+                        counter = counter + 1;
+                        item.ID = counter;
 
-                        item.ID = (int)dataReader.GetValue(0);
-                        item.Items = (string)dataReader.GetValue(1);
-                        item.Quantity = (int)dataReader.GetValue(2);
-                        item.Price = (int)dataReader.GetValue(3);
-                        String itemTotal = Bill_Price.Text.ToString();
-                        item.Total = Total + Int32.Parse(itemTotal);
+                        item.Item = (string)dataReader.GetValue(1);
+                        item.Quantity = Int32.Parse(Bill_Quantity.Text.ToString());
+                        item.Price = Int32.Parse(Bill_Price.Text.ToString());
 
+                        int SubTotal = Int32.Parse(Bill_Price.Text.ToString()) * Int32.Parse(Bill_Quantity.Text.ToString());
+                        item.Total = SubTotal;
+
+                        // add to data grid
                         ItemsDbBillGridXAML.Items.Add(item);
-
-                        Total = Total + Int32.Parse(itemTotal);
+                        // calculate total bill
+                        TotalBill = TotalBill + SubTotal;
+                        // update total bill to gui
+                        Total_Bill.Text = TotalBill.ToString() + "Tk";
+                        
 
                     }
 
@@ -424,6 +433,12 @@ namespace GroceryPro
                 dataReader.Close();
                 command.Dispose();
                 cnn.Close();
+
+                // clear fields
+                Customer_name.Text = "";
+                Customer_phone.Text = "";
+                Customer_Address.Text = "";
+                CustomerDropDown.SelectedIndex = -1;
 
             }
             else

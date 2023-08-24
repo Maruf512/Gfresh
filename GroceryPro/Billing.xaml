@@ -20,14 +20,14 @@
             <Border Width="460" Height="250" BorderThickness="1" BorderBrush="Black" Opacity="0.8" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,50" />
 
             <!--- Text Block -->
-            <TextBlock Text="Total:" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="477,607,0,0" Padding="10,5,10,5"/>
+            <TextBlock Text="Total:" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="481,607,0,0" Padding="10,5,10,5"/>
 
             <TextBlock Text="Invoice" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="730,302,0,0"/>
             <TextBlock Text="Billing" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="180,302,0,0"/>
             <TextBlock Text="In Stock" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="722,0,0,0"/>
 
             <!-- Total Amount Field -->
-            <TextBlock Text="" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="579,0,0,0" Padding="10,5,10,5"/>
+            <TextBlock Text="" x:Name="Total_Bill" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="579,0,0,0" Padding="10,5,10,5"/>
 
             <!--- Buttons -->
             <Button Content="Logout" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="15 5" Click="GotoLogoutWindow" />
@@ -68,7 +68,7 @@
                 <!-- Header and Binding -->
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Width="80" Binding="{Binding ID}"/>
-                    <DataGridTextColumn Header="Items" Width="200" Binding="{Binding Items}"/>
+                    <DataGridTextColumn Header="Items" Width="200" Binding="{Binding Item}"/>
                     <DataGridTextColumn Header="Price" Width="100" Binding="{Binding Price}"/>
                     <DataGridTextColumn Header="Quantity" Width="100" Binding="{Binding Quantity}"/>
                     <DataGridTextColumn Header="Total" Width="*" Binding="{Binding Total}"/>
@@ -78,10 +78,10 @@
             <!--================================ Customer Info Section ================================-->
             <TextBlock Text="Customer Info" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="148,0,0,0"/>
             <Border Width="460" Height="250" BorderThickness="1" BorderBrush="Black" Opacity="0.8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,40,0,0" />
-            
+
             <TextBlock Text="Name" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="85,54,0,0"/>
             <TextBox x:Name="Customer_name" Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="16,94,0,0"/>
-            
+
             <TextBlock Text="Phone" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="317,54,0,0"/>
             <TextBox x:Name="Customer_phone" Style="{DynamicResource RoundTextbox}" FontSize="20" FontFamily="Comic Sans MS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Background="Transparent" BorderBrush="#FF505050" Margin="248,94,0,0"/>
 
@@ -109,9 +109,10 @@
 
             <Button Content="Add To Bill" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="21,544,0,0" Click="AddToBill"/>
             <Button Content="Reset" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="341,542,0,0" Click="BillResetFields"/>
+            <Button Content="Delet" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="211,542,0,0" Click="BillResetFields"/>
 
-            
-            
+
+
         </Grid>
     </Grid>
 </Window>
