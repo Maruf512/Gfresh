@@ -27,13 +27,13 @@
             <TextBlock Text="In Stock" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="722,0,0,0"/>
 
             <!-- Total Amount Field -->
-            <TextBlock Text="" x:Name="Total_Bill" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="579,0,0,0" Padding="10,5,10,5"/>
+            <TextBlock Text="" x:Name="Total_Bill" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="563,0,0,0" Padding="10,5,10,5"/>
 
             <!--- Buttons -->
             <Button Content="Logout" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="15 5" Click="GotoLogoutWindow" />
-            <Button Content="Print" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="15 5" Margin="0,0,120,0" Click="GotoInvoiceWindow"/>
+            <Button Content="Checkout" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="15 5" Margin="0,0,120,0" Click="GotoInvoiceWindow"/>
             <!--- Refresh Database Button -->
-            <Image Source="/Images/Icon/sync.png" Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,230,0"/>
+            <Image Source="/Images/Icon/sync.png" Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,266,3"/>
 
             <!--- Left side Database Items Viewer -->
             <DataGrid x:Name="ItemsDbGridXAML" Width="580" Height="250" FontFamily="Comic Sans MS" FontSize="20" Margin="480,42,0,0" BorderBrush="{x:Null}" IsEnabled="True" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True" >

@@ -384,7 +384,7 @@ namespace GroceryPro
         int counter = 0;
         int TotalBill = 0;
 
-        private void AddToBill(object sender, RoutedEventArgs e)
+        private void AddToBill(object sender, RoutedEventArgs e) 
         {
 
             if(ItemDropDown.SelectedIndex != -1)
