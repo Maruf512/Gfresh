@@ -70,9 +70,6 @@
             </DataGrid>
 
             <Button Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Content="OK" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Center" VerticalAlignment="Bottom" Padding="15 5" Margin="0,0,0,20" Click="SwitchToManageItem"/>
-            
-
-
 
         </Grid>
     </Grid>

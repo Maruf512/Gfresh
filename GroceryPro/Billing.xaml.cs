@@ -41,7 +41,7 @@ namespace GroceryPro
 
             private void readDataFromDB()
         {
-            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             String sql = "SELECT ItId,ItName,ItQty,ItPrice,ItCat FROM ItemTbl";
             SqlConnection cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -79,7 +79,7 @@ namespace GroceryPro
             // clear Customer Name dropdown before updating
             CustomerDropDown.Items.Clear();
 
-            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             String sql = "SELECT CName FROM CustomerInfo";
             SqlConnection cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -147,7 +147,7 @@ namespace GroceryPro
             bool dataExists = false;
 
             // Check db if data exists or not
-            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             String sql = "SELECT CName FROM CustomerInfo";
             SqlConnection cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -182,7 +182,7 @@ namespace GroceryPro
             {
                 if (Customer_name.Text != "" && Customer_phone.Text != "" && Customer_Address.Text != "")
                 {
-                    String connectionString2 = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+                    String connectionString2 = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
                     String sql2 = $"INSERT INTO CustomerInfo (CName,CPhone,CAddress) VALUES('{Customer_name.Text}',{Customer_phone.Text},'{Customer_Address.Text}')";
                     SqlDataAdapter adapter = new SqlDataAdapter(); // for adding value
 
@@ -233,7 +233,7 @@ namespace GroceryPro
         {
 
 
-            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             String sql = "SELECT ItName FROM ItemTbl";
             SqlConnection cnn = new SqlConnection(connectionString);
             cnn.Open();
@@ -273,7 +273,7 @@ namespace GroceryPro
             {
                 string SelectedItem = ItemDropDown.SelectedItem.ToString();
 
-                String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+                String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
                 String processSqlCmd = "SELECT * FROM ItemTbl";
 
                 String sql = processSqlCmd;
@@ -318,7 +318,7 @@ namespace GroceryPro
                     string SelectedInfo = "";
                     SelectedInfo = CustomerDropDown.SelectedItem.ToString();
 
-                    String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+                    String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
                     String processSqlCmd = "SELECT * FROM CustomerInfo";
 
                     String sql = processSqlCmd;
@@ -331,13 +331,15 @@ namespace GroceryPro
 
                         String CustomerName = (string)dataReader.GetValue(1);
 
+                        // fix customer selecting system
+                        // also it has some bugs.
                         if (CustomerName == SelectedInfo)
                         {
-                            int CustomerPhone = (int)dataReader.GetValue(2);
+                            string CustomerPhone = (string)dataReader.GetValue(2);
                             String CustomerAddress = (String)dataReader.GetValue(3);
 
                             Customer_name.Text = CustomerName;
-                            Customer_phone.Text = CustomerPhone.ToString();
+                            Customer_phone.Text = CustomerPhone;
                             Customer_Address.Text = CustomerAddress.ToString();
 
                             AddBillBtn.IsEnabled = false;
@@ -391,7 +393,7 @@ namespace GroceryPro
             {
                 string SelectedItem = ItemDropDown.SelectedItem.ToString();
 
-                String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\maruf\\source\\repos\\Gfresh\\GroceryPro\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+                String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
                 String processSqlCmd = "SELECT * FROM ItemTbl";
 
                 String sql = processSqlCmd;
