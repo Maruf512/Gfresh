@@ -120,6 +120,21 @@ namespace GroceryPro
 
         private void GotoInvoiceWindow(object sender, RoutedEventArgs e)
         {
+
+
+            // to get data from datagrid billing section
+            AddBill item = new AddBill();
+            foreach (AddBill p in ItemsDbBillGridXAML.Items)
+            {
+                // do something with "p", e.g. access properties: p.SerialNo 
+                MessageBoxResult messageBoxResult2 = MessageBox.Show( p.Item , "Gfresh", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+
+            MessageBoxResult messageBoxResult = MessageBox.Show("Done!!", "Gfresh", MessageBoxButton.OK, MessageBoxImage.Error);
+
+
+            // to change the window
             this.Hide();
             Invoice invoice = new Invoice();
             invoice.Show();
