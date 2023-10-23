@@ -109,7 +109,7 @@
 
             <Button Content="Add To Bill" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="21,544,0,0" Click="AddToBill"/>
             <Button Content="Reset" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="341,542,0,0" Click="BillResetFields"/>
-            <Button Content="Delet" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="211,542,0,0" Click="BillResetFields"/>
+            <Button Content="Delet" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="211,542,0,0" Click="Delet_Click"/>
 
 
 

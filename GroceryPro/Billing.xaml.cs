@@ -4,7 +4,8 @@ using System.Windows;
 using System.Windows.Input;
 using System.Diagnostics;
 using System.Windows.Controls;
-
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GroceryPro
 {
@@ -40,7 +41,7 @@ namespace GroceryPro
             // ========================= Local Functions ======================
 
             private void readDataFromDB()
-        {
+            {
             String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             String sql = "SELECT ItId,ItName,ItQty,ItPrice,ItCat FROM ItemTbl";
             SqlConnection cnn = new SqlConnection(connectionString);
@@ -63,7 +64,7 @@ namespace GroceryPro
             dataReader.Close();
             command.Dispose();
             cnn.Close();
-        }
+            }
 
         private void ClearCustomerFields()
         {
@@ -121,17 +122,51 @@ namespace GroceryPro
         private void GotoInvoiceWindow(object sender, RoutedEventArgs e)
         {
 
+            // veriables
+            bool is_empty = true;
+
+            // get fields data
+            // process customer info to store it to database
+            string Cinfo = $"{Customer_name.Text},{Customer_phone.Text},{Customer_Address.Text}";
+            string BillingData = "";
+            int GrandTotal = 0;
+
 
             // to get data from datagrid billing section
             AddBill item = new AddBill();
             foreach (AddBill p in ItemsDbBillGridXAML.Items)
             {
-                // do something with "p", e.g. access properties: p.SerialNo 
-                MessageBoxResult messageBoxResult2 = MessageBox.Show( p.Item , "Gfresh", MessageBoxButton.OK, MessageBoxImage.Error);
+                BillingData += $"{p.ID}|{p.Item}|{p.Price}|{p.Quantity}|{p.Total}||  ";
+                GrandTotal += p.Total;
+                is_empty = false;
             }
 
+            // if billing datagrid is empty show info messege
+            if (is_empty == true)
+            {
+                MessageBoxResult messageBoxResult1 = MessageBox.Show("Add Item's to Bill.", "Gfresh", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                // add data to billing db table
+                String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+                String sql = $"INSERT INTO Bills (CInfo,BillingData,GrandTotal) VALUES('{Cinfo}','{BillingData}','{GrandTotal}')";
+                SqlDataAdapter adapter = new SqlDataAdapter(); // for adding value
 
-            MessageBoxResult messageBoxResult = MessageBox.Show("Done!!", "Gfresh", MessageBoxButton.OK, MessageBoxImage.Error);
+                SqlConnection cnn = new SqlConnection(connectionString);
+
+                cnn.Open();
+                SqlCommand command = new SqlCommand(sql, cnn);
+
+                adapter.InsertCommand = new SqlCommand(sql, cnn);
+                adapter.InsertCommand.ExecuteNonQuery();
+
+                command.Dispose();
+                cnn.Close();
+            }
+
+            // remove it on final stage just for debuging.
+            MessageBoxResult messageBoxResult = MessageBox.Show("Added to DB.", "Gfresh", MessageBoxButton.OK, MessageBoxImage.Error);
 
 
             // to change the window
@@ -425,15 +460,26 @@ namespace GroceryPro
                     {
                         // datagrid object
                         AddBill item = new AddBill();
+                        foreach (AddBill cntr in ItemsDbBillGridXAML.Items)
+                        {
+                            if(SelectedItem == cntr.Item)
+                            {
+                                //update this field
+                                continue;
+                                //ItemsDbBillGridXAML.Items.Contains(cntr.Item);
+                            }
+                        }
+
+
                         // process data
                         counter = counter + 1;
                         item.ID = counter;
 
                         item.Item = (string)dataReader.GetValue(1);
-                        item.Quantity = Int32.Parse(Bill_Quantity.Text.ToString());
-                        item.Price = Int32.Parse(Bill_Price.Text.ToString());
+                        item.Quantity = int.Parse(Bill_Quantity.Text.ToString());
+                        item.Price = int.Parse(Bill_Price.Text.ToString());
 
-                        int SubTotal = Int32.Parse(Bill_Price.Text.ToString()) * Int32.Parse(Bill_Quantity.Text.ToString());
+                        int SubTotal = int.Parse(Bill_Price.Text.ToString()) * int.Parse(Bill_Quantity.Text.ToString());
                         item.Total = SubTotal;
 
                         // add to data grid
@@ -452,10 +498,9 @@ namespace GroceryPro
                 cnn.Close();
 
                 // clear fields
-                Customer_name.Text = "";
-                Customer_phone.Text = "";
-                Customer_Address.Text = "";
-                CustomerDropDown.SelectedIndex = -1;
+                Bill_Quantity.Text = "";
+                Bill_Price.Text = "";
+                ItemDropDown.SelectedIndex = -1;
 
             }
             else
@@ -464,9 +509,65 @@ namespace GroceryPro
             }
 
 
+        }
 
+        private void Delet_Click(object sender, RoutedEventArgs e)
+        {
+            //string data = ItemDropDown.SelectedItem.ToString();
+            //ItemsDbBillGridXAML.Items.Clear();  // clears the full datagrid
+
+
+            List<String> All_bills = new List<String>();
+            List<String> check_bills = new List<String>();
             
 
+            AddBill item = new AddBill();
+            int ctr = 0;
+            while (ctr < ItemsDbBillGridXAML.Items.Count)
+            {
+                AddBill x = (AddBill)ItemsDbBillGridXAML.Items[ctr];
+
+                All_bills.Add($"{x.ID},{x.Item},{x.Price},{x.Quantity}");
+                check_bills.Add(x.Item + "|" +ctr.ToString());
+
+
+                ctr++;
+            }
+
+
+            List<String> final_data = new List<String>();
+            List<String> duplicate_data = new List<String>();
+            List<String> og_data = new List<String>();
+            List<String> dump_data = new List<String>();
+
+            
+            for(int i  = 0; i < All_bills.Count; i++)
+            {
+
+                string[] process_All_bills = All_bills[i].Split(',');
+
+
+                if (dump_data.Contains(process_All_bills[1]))
+                {
+                    duplicate_data.Add(All_bills[i]);
+                }
+                else
+                {
+                    og_data.Add(All_bills[i]);
+                }
+                // dump all the data that have been tested.
+                dump_data.Add(process_All_bills[1]);
+
+
+            }
+            // clear the dump_data
+            dump_data.Clear();
+
+
+
+
+
         }
+
     }
 }
