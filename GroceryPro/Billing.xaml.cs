@@ -6,6 +6,9 @@ using System.Diagnostics;
 using System.Windows.Controls;
 using System.Collections.Generic;
 using System.Linq;
+using MaterialDesignThemes.Wpf;
+using System.Windows.Documents;
+using System.CodeDom;
 
 namespace GroceryPro
 {
@@ -513,61 +516,45 @@ namespace GroceryPro
 
         private void Delet_Click(object sender, RoutedEventArgs e)
         {
-            //string data = ItemDropDown.SelectedItem.ToString();
-            //ItemsDbBillGridXAML.Items.Clear();  // clears the full datagrid
 
+        }
 
+        private void RefteshDataGrid(object sender, RoutedEventArgs e)
+        {
+            // all the lists to process and stor temp data
             List<String> All_bills = new List<String>();
-            List<String> check_bills = new List<String>();
-            
 
-            AddBill item = new AddBill();
             int ctr = 0;
             while (ctr < ItemsDbBillGridXAML.Items.Count)
             {
                 AddBill x = (AddBill)ItemsDbBillGridXAML.Items[ctr];
 
-                All_bills.Add($"{x.ID},{x.Item},{x.Price},{x.Quantity}");
-                check_bills.Add(x.Item + "|" +ctr.ToString());
+                for(int i = 0; i < All_bills.Count; i++)
+                {
+                    string[] split_data = All_bills[i].Split(',');
 
+                    if(x.Item == split_data[1])
+                    {
+                        int total_price = x.Price + int.Parse(split_data[2]);
+                        int total_quantity = x.Quantity + int.Parse(split_data[3]);
+                        All_bills[i] = $"{split_data[0]},{split_data[1]},{split_data[2]},{total_quantity},{total_price}";
+                    }
+                    else
+                    {
+                        All_bills.Add($"{x.ID},{x.Item},{x.Price},{x.Quantity},{x.Total}");
+                    }
 
+                }
                 ctr++;
             }
 
-
-            List<String> final_data = new List<String>();
-            List<String> duplicate_data = new List<String>();
-            List<String> og_data = new List<String>();
-            List<String> dump_data = new List<String>();
-
-            
-            for(int i  = 0; i < All_bills.Count; i++)
+            foreach (String s in All_bills)
             {
-
-                string[] process_All_bills = All_bills[i].Split(',');
-
-
-                if (dump_data.Contains(process_All_bills[1]))
-                {
-                    duplicate_data.Add(All_bills[i]);
-                }
-                else
-                {
-                    og_data.Add(All_bills[i]);
-                }
-                // dump all the data that have been tested.
-                dump_data.Add(process_All_bills[1]);
-
-
+                MessageBox.Show(s);
             }
-            // clear the dump_data
-            dump_data.Clear();
-
-
 
 
 
         }
-
     }
 }
