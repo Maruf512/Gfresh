@@ -514,45 +514,84 @@ namespace GroceryPro
 
         }
 
+        private List<string> process_dataGrid()
+        {
+            // collect all data from data grid and store it on a list
+            List<string> data_list = new List<string>();
+            int ctr = 0;
+            while (ctr < ItemsDbBillGridXAML.Items.Count)
+            {
+                AddBill bill_DG_obj = (AddBill)ItemsDbBillGridXAML.Items[ctr];
+                string p_data = $"{bill_DG_obj.ID}@{bill_DG_obj.Item}@{bill_DG_obj.Price}@{bill_DG_obj.Quantity}@{bill_DG_obj.Total}";
+                data_list.Add(p_data);
+                ctr++;
+            }
+
+            // sort data and store it in 2 lists
+            List<string> main_data = new List<string>();
+            List<string> duplicate_data = new List<string>();
+            HashSet<string> seen = new HashSet<string>();
+
+            foreach (string Main_item in data_list)
+            {
+                String[] item = Main_item.Split('@');
+                if (seen.Contains(item[1]))
+                {
+                    duplicate_data.Add(Main_item);  // Duplicate data
+                }
+                else
+                {
+                    seen.Add(item[1]);
+                    main_data.Add(Main_item);  // Unique data
+                }
+            }
+
+            // marge duplicate data and main_data
+            for (int i = 0; i < main_data.Count; i++)
+            {
+                for (int j = 0; j < duplicate_data.Count; j++)
+                {
+                    string[] main_Split = main_data[i].Split('@');
+                    string[] duplicate_Split = duplicate_data[j].Split('@');
+
+                    if (main_Split[1] == duplicate_Split[1])
+                    {
+                        int total_qtty = int.Parse(main_Split[3]) + int.Parse(duplicate_Split[3]);
+                        int total = int.Parse(main_Split[4]) + int.Parse(duplicate_Split[4]);
+                        main_data[i] = $"{main_Split[0]}@{main_Split[1]}@{main_Split[2]}@{total_qtty}@{total}";
+                    }
+                }
+            }
+
+            return main_data;
+
+        }
+        //=====================END=======================
+
         private void Delet_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void RefteshDataGrid(object sender, RoutedEventArgs e)
+        private void RefreshDataGrid(object sender, RoutedEventArgs e)
         {
-            // all the lists to process and stor temp data
-            List<String> All_bills = new List<String>();
+            List<string> to_print = process_dataGrid();
 
-            int ctr = 0;
-            while (ctr < ItemsDbBillGridXAML.Items.Count)
+            ItemsDbBillGridXAML.Items.Clear();
+
+            foreach (string item in to_print)
             {
-                AddBill x = (AddBill)ItemsDbBillGridXAML.Items[ctr];
+                AddBill addBill = new AddBill();
+                String[] split_item = item.Split('@');
 
-                for(int i = 0; i < All_bills.Count; i++)
-                {
-                    string[] split_data = All_bills[i].Split(',');
+                addBill.ID = int.Parse(split_item[0]);
+                addBill.Item = split_item[1];
+                addBill.Price = int.Parse(split_item[2]);
+                addBill.Quantity = int.Parse(split_item[3]);
+                addBill.Total = int.Parse(split_item[4]);
 
-                    if(x.Item == split_data[1])
-                    {
-                        int total_price = x.Price + int.Parse(split_data[2]);
-                        int total_quantity = x.Quantity + int.Parse(split_data[3]);
-                        All_bills[i] = $"{split_data[0]},{split_data[1]},{split_data[2]},{total_quantity},{total_price}";
-                    }
-                    else
-                    {
-                        All_bills.Add($"{x.ID},{x.Item},{x.Price},{x.Quantity},{x.Total}");
-                    }
-
-                }
-                ctr++;
+                ItemsDbBillGridXAML.Items.Add(addBill);
             }
-
-            foreach (String s in All_bills)
-            {
-                MessageBox.Show(s);
-            }
-
 
 
         }

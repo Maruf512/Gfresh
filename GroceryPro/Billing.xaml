@@ -33,7 +33,7 @@
             <Button Content="Logout" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="15 5" Click="GotoLogoutWindow" />
             <Button Content="Checkout" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Right" VerticalAlignment="Bottom" Padding="15 5" Margin="0,0,120,0" Click="GotoInvoiceWindow"/>
             <!--- Refresh Database Button -->
-            <Button Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,266,3" Click="RefteshDataGrid" >
+            <Button Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,266,3" Click="RefreshDataGrid" >
                 <Button.Template>
                     <ControlTemplate>
                         <Image Source="/Images/Icon/sync.png" />
