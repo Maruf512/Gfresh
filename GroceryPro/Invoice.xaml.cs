@@ -24,10 +24,48 @@ namespace GroceryPro
     /// </summary>
     public partial class Invoice : Window
     {
-        public Invoice()
+        public List<string> invoices;
+        
+        public Invoice(List<string> to_print)
         {
+            invoices = to_print;
             InitializeComponent();
+
+            // call methods
+            addBillToInvoice();
+
         }
+
+        // Grid Views Invoice List objects
+        public class AddBill
+        {
+            public int ID { get; set; }
+            public string Item { get; set; }
+            public int Price { get; set; }
+            public int Quantity { get; set; }
+            public int Total { get; set; }
+
+        }
+
+        // external modules
+        private void addBillToInvoice()
+        {
+            foreach (string item in invoices)
+            {
+                AddBill addBill = new AddBill();
+                String[] split_item = item.Split('@');
+
+                addBill.ID = int.Parse(split_item[0]);
+                addBill.Item = split_item[1];
+                addBill.Price = int.Parse(split_item[2]);
+                addBill.Quantity = int.Parse(split_item[3]);
+                addBill.Total = int.Parse(split_item[4]);
+
+                InvoicedataGrid.Items.Add(addBill);
+            }
+        }
+
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -85,7 +123,17 @@ namespace GroceryPro
             PdfSharp.Xps.XpsConverter.Convert(lMemoryStream, outStream, false);
 
             // Write pdf file
-            FileStream fileStream = new FileStream("D:\\Images\\test.pdf", FileMode.Create);
+            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ==== Make it dinamic === !!!!!!!!!!!!!!!!!!!!!!!!!!
+            /*
+                string root = @"C:\Temp";
+                string subdir = @"C:\Temp\Mahesh";
+                // If directory does not exist, create it.
+                if (!Directory.Exists(root))
+                {
+                    Directory.CreateDirectory(root);
+                }
+             */
+            FileStream fileStream = new FileStream($"D:\\Documents\\Gfresh_data\\invoice.pdf", FileMode.Create);
             outStream.CopyTo(fileStream);
 
             // Clean up
@@ -94,7 +142,7 @@ namespace GroceryPro
             fileStream.Flush();
             fileStream.Close();
 
-            MessageBoxResult messageBoxResult = MessageBox.Show("File Saved.", "Gfresh", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBoxResult messageBoxResult = MessageBox.Show("File Saved.", "Gfresh", MessageBoxButton.OK, MessageBoxImage.None);
 
         }
 
@@ -102,5 +150,7 @@ namespace GroceryPro
         {
             Application.Current.Shutdown();
         }
+
+       
     }
 }
