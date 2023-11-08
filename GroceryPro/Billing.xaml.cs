@@ -9,6 +9,7 @@ using System.Linq;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Documents;
 using System.CodeDom;
+using System.Security.Policy;
 
 namespace GroceryPro
 {
@@ -24,7 +25,7 @@ namespace GroceryPro
             // ========================= GET STOCK DATA FROM DB
             readDataFromDB();
             // ========================= GET CUSTOMER INFO
-            RefreshComboBox();
+            RefreshCustomerDropdown();
             // get data from db for item's list
             ReadFromDB();
 
@@ -68,12 +69,29 @@ namespace GroceryPro
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!! TEST FUCNTIONS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        public static int GetCustomerIdByPhone(string phone)
+        {
+            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+            String sql = $"SELECT Cid from CustomerInfo where CPhone = '{phone}'";
+
+            SqlConnection cnn = new SqlConnection(connectionString);
+            cnn.Open();
+            SqlCommand command = new SqlCommand(sql, cnn);
+            // get value
+            int data = (int)command.ExecuteScalar();
+
+            // close connection
+            command.Dispose();
+            cnn.Close();
+
+            return data;
+
+        }
+
+        //============================== CHECK IF CUSTOMER EXISTS OR NOT
         public static bool CheckIfCustomerPhoneExistsOrNot(string PhoneNo)
         {
-            if(PhoneNo == null)
-            {
-                PhoneNo = "01793927706";
-            }
 
             String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             String sql = $"SELECT COUNT(*) from CustomerInfo where CPhone like '{PhoneNo}'";
@@ -97,7 +115,6 @@ namespace GroceryPro
             {
                 return false;
             }
-
 
         }
 
@@ -168,13 +185,13 @@ namespace GroceryPro
         }
 
         // ======================== ADD DATA TO COMBOBOX OR REFRESH FROM DB
-        private void RefreshComboBox()
+        private void RefreshCustomerDropdown()
         {
-            // clear Customer Name dropdown before updating
+            //===================== CLEAR CUSTOMER NAME DROPDOWN
             CustomerDropDown.Items.Clear();
-
+            //===================== GET DATA FROM DB AND ASIGN IT ON THE DROPDOWN
             String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
-            String sql = "SELECT CName FROM CustomerInfo";
+            String sql = "SELECT CName,CPhone FROM CustomerInfo";
             SqlConnection cnn = new SqlConnection(connectionString);
             cnn.Open();
             SqlCommand command = new SqlCommand(sql, cnn);
@@ -183,10 +200,11 @@ namespace GroceryPro
             {
                 AddItems item = new AddItems();
 
-                String CustomerData = (string)dataReader.GetValue(0);
+                String CustomerName = (string)dataReader.GetValue(0);
+                String CustomerPhone = (string)dataReader.GetValue(1);
 
                 // add data to combobox
-                CustomerDropDown.Items.Add(CustomerData);
+                CustomerDropDown.Items.Add(CustomerName + ", " + CustomerPhone);
 
 
             }
@@ -290,81 +308,70 @@ namespace GroceryPro
         // =========================== SHIFT WINDOW TO INVOICE
         private void GotoInvoiceWindow(object sender, RoutedEventArgs e)
         {
-            // veriables
             bool is_empty = true;
-            // get fields data
-            // process customer info to store it to database
-            // ============= check if the phone number is unique is not before adding the user
-            string Cinfo = $"{Customer_name.Text},{Customer_phone.Text},{Customer_Address.Text}";
-            string BillingData = "";
-            int GrandTotal = 0;
-            // to get data from datagrid billing section
-            AddBill item = new AddBill();
-            foreach (AddBill p in ItemsDbBillGridXAML.Items)
-            {
-                BillingData += $"{p.ID}|{p.Item}|{p.Price}|{p.Quantity}|{p.Total}||  ";
-                GrandTotal += p.Total;
-                is_empty = false;
-            }
 
-            // if billing datagrid is empty show info messege
-            if (is_empty == true)
+            // ============= GET Cid BY CUSTOMER PHONE NUMBER
+
+            bool is_exists = CheckIfCustomerPhoneExistsOrNot(Customer_phone.Text);
+            if (is_exists)
             {
-                MessageBoxResult messageBoxResult1 = MessageBox.Show("Add Item's to Bill.", "Gfresh", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                int Cid = GetCustomerIdByPhone(Customer_phone.Text);
+                string current_date = DateTime.Now.ToString("MM / dd / yyyy");
+
+                string BillingData = "";
+                int GrandTotal = 0;
+                // to get data from datagrid billing section
+                AddBill item = new AddBill();
+                foreach (AddBill p in ItemsDbBillGridXAML.Items)
+                {
+                    BillingData += $"{p.ID}|{p.Item}|{p.Price}|{p.Quantity}|{p.Total}||  ";
+                    GrandTotal += p.Total;
+                    is_empty = false;
+                }
+
+                // if billing datagrid is empty show info messege
+                if (is_empty == true)
+                {
+                    MessageBox.Show("Add Item's to Bill.", "Gfresh", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
+                else
+                {
+                    //=============== ADD DATA TO BILLING TABLE
+                    String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+                    String sql = $"INSERT INTO Bills (CInfo,BillingData,GrandTotal,DateTime) VALUES('{Cid}','{BillingData}','{GrandTotal}','{current_date}')";
+                    SqlDataAdapter adapter = new SqlDataAdapter();
+                    SqlConnection cnn = new SqlConnection(connectionString);
+                    cnn.Open();
+                    SqlCommand command = new SqlCommand(sql, cnn);
+                    adapter.InsertCommand = new SqlCommand(sql, cnn);
+                    adapter.InsertCommand.ExecuteNonQuery();
+                    command.Dispose();
+                    cnn.Close();
+                }
+                // remove it on final stage just for debuging.
+                MessageBox.Show("Added to DB.", "Gfresh", MessageBoxButton.OK, MessageBoxImage.Information);
+                
+                // ==================== CHANGE THE WINDOW
+                this.Hide();
+                Invoice invoice = new Invoice(to_print);
+                invoice.Show();
+
             }
             else
             {
-                // add data to billing db table
-                String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
-                String sql = $"INSERT INTO Bills (CInfo,BillingData,GrandTotal) VALUES('{Cinfo}','{BillingData}','{GrandTotal}')";
-                SqlDataAdapter adapter = new SqlDataAdapter(); // for adding value
-                SqlConnection cnn = new SqlConnection(connectionString);
-                cnn.Open();
-                SqlCommand command = new SqlCommand(sql, cnn);
-                adapter.InsertCommand = new SqlCommand(sql, cnn);
-                adapter.InsertCommand.ExecuteNonQuery();
-                command.Dispose();
-                cnn.Close();
+                MessageBox.Show("User Dosent Exists!\nAdd User.");
             }
-            // remove it on final stage just for debuging.
-            MessageBoxResult messageBoxResult = MessageBox.Show("Added to DB.", "Gfresh", MessageBoxButton.OK, MessageBoxImage.Information);
-            // refresh datagrids data
-            RefreshDataGrid();
-            // to change the window
-            this.Hide();
-            Invoice invoice = new Invoice(to_print);
-            invoice.Show();
+
         }
         
 
-        //=============== ADD CUSTOMER TO DB
+        //======================== ADD CUSTOMER TO DB
         private void AddCustomer(object sender, RoutedEventArgs e)
         {
-            bool dataExists = false;
+            //================ CHECK IF USER EXISTS OR NOT
+            bool dataExists = CheckIfCustomerPhoneExistsOrNot(Customer_phone.Text);
 
-            // Check db if data exists or not
-            String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
-            String sql = "SELECT CName FROM CustomerInfo";
-            SqlConnection cnn = new SqlConnection(connectionString);
-            cnn.Open();
-            SqlCommand command = new SqlCommand(sql, cnn);
-            SqlDataReader dataReader = command.ExecuteReader();
-            while (dataReader.Read())
-            {
-                String CustomerData = (string)dataReader.GetValue(0);
-
-                if (Customer_name.Text == CustomerData)
-                {
-                    dataExists = true;
-                }
-                
-            }
-
-            dataReader.Close();
-            command.Dispose();
-            cnn.Close();
-
-            // assign data to db
+            //================ ASIGN DATA TO DB
             if (dataExists)
             {
                 MessageBox.Show("Data Exists");
@@ -373,8 +380,11 @@ namespace GroceryPro
             {
                 if (Customer_name.Text != "" && Customer_phone.Text != "" && Customer_Address.Text != "")
                 {
+
+                    string current_date = DateTime.Now.ToString("MM / dd / yyyy");
+
                     String connectionString2 = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
-                    String sql2 = $"INSERT INTO CustomerInfo (CName,CPhone,CAddress) VALUES('{Customer_name.Text}',{Customer_phone.Text},'{Customer_Address.Text}')";
+                    String sql2 = $"INSERT INTO CustomerInfo (CName,CPhone,CAddress,RegistrationDate) VALUES('{Customer_name.Text}',{Customer_phone.Text},'{Customer_Address.Text}','{current_date}')";
                     SqlDataAdapter adapter = new SqlDataAdapter(); // for adding value
 
                     SqlConnection cnn2 = new SqlConnection(connectionString2);
@@ -387,7 +397,7 @@ namespace GroceryPro
                     command2.Dispose();
                     cnn2.Close();
                     // refresh combobox
-                    RefreshComboBox();
+                    RefreshCustomerDropdown();
                     // clear all the fields
                     ClearCustomerFields();
                 }
@@ -415,6 +425,7 @@ namespace GroceryPro
             ItemDropDown.SelectedIndex = -1;
             Bill_Quantity.Text = "";
             Bill_Price.Text = "";
+            Bill_Discount.Text = "";
         }
 
         // =================== HANDEL EVENT ON SELECTING AN ITEM
@@ -465,39 +476,48 @@ namespace GroceryPro
             {
                 try
                 {
-                    string SelectedInfo = "";
-                    SelectedInfo = CustomerDropDown.SelectedItem.ToString();
+                    //==================== GET DATA FROM DROPDOWN AND PROCESS THAT DATA
+                    string SelectedInfo = CustomerDropDown.SelectedItem.ToString();
+                    string CustomerName = SelectedInfo.Split(',')[0].Trim();
+                    string CustomerPhone = SelectedInfo.Split(',')[1].Trim();
 
-                    String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
-                    String processSqlCmd = "SELECT * FROM CustomerInfo";
+                    //==================== SELECT CUSTOMER FROM DB BY PHONE
 
-                    String sql = processSqlCmd;
-                    SqlConnection cnn = new SqlConnection(connectionString);
-                    cnn.Open();
-                    SqlCommand command = new SqlCommand(sql, cnn);
-                    SqlDataReader dataReader = command.ExecuteReader();
-                    while (dataReader.Read())
+                    bool customer_exists = CheckIfCustomerPhoneExistsOrNot(CustomerPhone);
+
+                    if (customer_exists)
                     {
-                        String CustomerName = (string)dataReader.GetValue(1);
-                        // fix customer selecting system
-                        // also it has some bugs.
-                        if (CustomerName == SelectedInfo)
+
+                        String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
+                        String sql = $"SELECT CName,CAddress from CustomerInfo where CPhone = '{CustomerPhone}'";
+
+                        SqlConnection cnn = new SqlConnection(connectionString);
+                        cnn.Open();
+                        SqlCommand command = new SqlCommand(sql, cnn);
+                        // get value
+                        
+                        using(SqlDataReader reader = command.ExecuteReader())
                         {
-                            string CustomerPhone = (string)dataReader.GetValue(2);
-                            String CustomerAddress = (String)dataReader.GetValue(3);
-
-                            Customer_name.Text = CustomerName;
+                            reader.Read();
+                            Customer_name.Text = reader.GetString(0);
+                            Customer_Address.Text = reader.GetString(1);
                             Customer_phone.Text = CustomerPhone;
-                            Customer_Address.Text = CustomerAddress.ToString();
-
-                            AddBillBtn.IsEnabled = false;
-
+                            reader.Close();
                         }
+                        //=============== DISSABLE ADD BUTTON
+                        AddBillBtn.IsEnabled = false;
+
+                        //=============== CLOSE CONNECTIONS
+                        command.Dispose();
+                        cnn.Close();
+
 
                     }
-                    dataReader.Close();
-                    command.Dispose();
-                    cnn.Close();
+
+
+
+
+
                 }
                 catch (NullReferenceException)
                 {
@@ -597,6 +617,7 @@ namespace GroceryPro
             Bill_Quantity.Text = "";
             Bill_Price.Text = "";
             Total_Bill.Text = "";
+            Bill_Discount.Text = "";
 
             ItemsDbBillGridXAML.Items.Clear();
 
