@@ -20,7 +20,7 @@ namespace GroceryPro
         {
             InitializeComponent();
             // ========================= GET STOCK DATA FROM DB
-            readDataFromDB();
+            ReadDataFromDB();
             // ========================= GET CUSTOMER INFO
             RefreshCustomerDropdown();
             // ========================= READ ITEM NAMES FROM DB FOR ITEM'S DROPDOWN
@@ -127,7 +127,7 @@ namespace GroceryPro
         }
 
         //====================== READ DATA FROM THE DATABASE
-        private void readDataFromDB()
+        private void ReadDataFromDB()
         {
             String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             String sql = "SELECT ItId,ItName,ItQty,ItPrice,ItCat FROM ItemTbl";
@@ -137,13 +137,14 @@ namespace GroceryPro
             SqlDataReader dataReader = command.ExecuteReader();
             while (dataReader.Read())
             {
-                AddItems item = new AddItems();
-
-                item.ID = (int)dataReader.GetValue(0);
-                item.Items = (string)dataReader.GetValue(1);
-                item.Quantity = (int)dataReader.GetValue(2);
-                item.Price = (int)dataReader.GetValue(3);
-                item.Catagory = (string)dataReader.GetValue(4);
+                AddItems item = new AddItems
+                {
+                    ID = (int)dataReader.GetValue(0),
+                    Items = (string)dataReader.GetValue(1),
+                    Quantity = (int)dataReader.GetValue(2),
+                    Price = (int)dataReader.GetValue(3),
+                    Catagory = (string)dataReader.GetValue(4)
+                };
 
                 ItemsDbGridXAML.Items.Add(item);
             }
@@ -176,7 +177,7 @@ namespace GroceryPro
             SqlDataReader dataReader = command.ExecuteReader();
             while (dataReader.Read())
             {
-                AddItems item = new AddItems();
+                _ = new AddItems();
 
                 String CustomerName = (string)dataReader.GetValue(0);
                 String CustomerPhone = (string)dataReader.GetValue(1);
@@ -191,7 +192,7 @@ namespace GroceryPro
         }
 
         // ==================== PROCESS BILLING DATAGRIDS
-        private List<string> process_dataGrid()
+        private List<string> Process_dataGrid()
         {
             //================= COLLECT ALL DATA FROM DATA GRID AND STORE IT ON A LIST
             List<string> data_list = new List<string>();
@@ -244,7 +245,7 @@ namespace GroceryPro
         // ========================= REFRESH BILLING DATAGRID FUNCTION
         private void RefreshDataGrid()
         {
-            to_print = process_dataGrid();
+            to_print = Process_dataGrid();
             ItemsDbBillGridXAML.Items.Clear();
 
             foreach (string item in to_print)
@@ -286,7 +287,7 @@ namespace GroceryPro
                 string BillingData = "";
                 int GrandTotal = 0;
                 //================= READ DATA FROM BILLING DATAGRID AND CALCULATE GRAND TOTAL
-                AddBill item = new AddBill();
+                _ = new AddBill();
                 foreach (AddBill p in ItemsDbBillGridXAML.Items)
                 {
                     BillingData += $"{p.ID}|{p.Item}|{p.Price}|{p.Quantity}|{p.Total}||  ";
@@ -536,7 +537,7 @@ namespace GroceryPro
                         AddBill item = new AddBill();
 
                         //============== PROCESS DATA
-                        counter = counter + 1;
+                        counter++;
                         item.ID = counter;
 
                         item.Item = (string)dataReader.GetValue(1);
@@ -549,7 +550,7 @@ namespace GroceryPro
                         //============== ADD TO DATAGRID
                         ItemsDbBillGridXAML.Items.Add(item);
                         //============== CALCULATE TOTAL BILLS
-                        TotalBill = TotalBill + SubTotal;
+                        TotalBill += SubTotal;
                         //============== UPDATE TOTAL BILLS TO GUI
                         Total_Bill.Text = TotalBill.ToString() + "Tk";
                     }
