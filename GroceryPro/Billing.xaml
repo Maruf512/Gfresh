@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GroceryPro"
         mc:Ignorable="d"
-        Title="Gfresh" Height="750" Width="1100" Background="Transparent" ResizeMode="NoResize" WindowStyle="None" Icon="/Images/groceries.png" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+        Title="Gfresh" Height="750" Width="1100" Background="Transparent" ResizeMode="NoResize" WindowStyle="None" Icon="/Images/groceries.png" WindowStartupLocation="CenterScreen">
     <Grid>
         <!--- Header // Bacground img // Icon // Close Btn -->
         <Image Source="/Images/Billing_bg.jpg" Stretch="Fill" Height="750" Width="1100"/>
@@ -118,7 +118,7 @@
             <TextBlock Text="Price" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="318,446,0,0"/>
             <TextBlock Text="Discount" Opacity="0.8" FontFamily="Comic Sans MS" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="76,451,0,0"/>
 
-            <Button Content="Add To Bill" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="21,544,0,0" Click="AddToBill"/>
+            <Button Content="Add To Bill" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="21,544,0,0" Click="AddBillToDataGrid"/>
             <Button Content="Clear" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="190,543,0,0" Click="ClearBillingFields" RenderTransformOrigin="0.955,-0.176"/>
             <Button Content="Reset Bill" Style="{DynamicResource RoundButton}" Template="{DynamicResource ButtonTemplate1}" Background="Transparent" FontSize="24" FontFamily="Comic Sans MS" Foreground="#CC000000" Opacity="0.9" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="15 5" Margin="298,542,0,0" Click="ResetBill"/>
 

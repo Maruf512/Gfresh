@@ -13,22 +13,18 @@ using System.Security.Policy;
 
 namespace GroceryPro
 {
-    /// <summary>
-    /// Interaction logic for Billing.xaml
-    /// </summary>
     public partial class Billing : Window
     {
+        //============================== RUNS ON PROGRAMS STARTUP
         public Billing()
         {
             InitializeComponent();
-
             // ========================= GET STOCK DATA FROM DB
             readDataFromDB();
             // ========================= GET CUSTOMER INFO
             RefreshCustomerDropdown();
-            // get data from db for item's list
+            // ========================= READ ITEM NAMES FROM DB FOR ITEM'S DROPDOWN
             ReadFromDB();
-
         }
 
         // ===========================================================================
@@ -58,18 +54,13 @@ namespace GroceryPro
             public int Price { get; set; }
             public int Quantity { get; set; }
             public int Total { get; set; }
-
         }
-
 
         // ===========================================================================
         // ============================= Local Functions =============================
         // ===========================================================================
 
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!! TEST FUCNTIONS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+        // ============================ GET CUSTOMER ID FROM DB USING PHONE NUMBER
         public static int GetCustomerIdByPhone(string phone)
         {
             String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
@@ -78,10 +69,10 @@ namespace GroceryPro
             SqlConnection cnn = new SqlConnection(connectionString);
             cnn.Open();
             SqlCommand command = new SqlCommand(sql, cnn);
-            // get value
+            //================= READ VALUES
             int data = (int)command.ExecuteScalar();
 
-            // close connection
+            //================= CLOSE CONNECTIONS
             command.Dispose();
             cnn.Close();
 
@@ -92,21 +83,18 @@ namespace GroceryPro
         //============================== CHECK IF CUSTOMER EXISTS OR NOT
         public static bool CheckIfCustomerPhoneExistsOrNot(string PhoneNo)
         {
-
             String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
             String sql = $"SELECT COUNT(*) from CustomerInfo where CPhone like '{PhoneNo}'";
 
             SqlConnection cnn = new SqlConnection(connectionString);
             cnn.Open();
             SqlCommand command = new SqlCommand(sql, cnn);
-
-            // get value
+            //================ GET VALUE
             int userCount = (int)command.ExecuteScalar();
-
-            // close connection
+            //================ CLOSE CONNECTIONS
             command.Dispose();
             cnn.Close();
-            // check if Customer phone exists or not
+            //================ CHECK IF CUSTOMER PHONE EXISTS OR NOT
             if (userCount > 0)
             {
                 return true;
@@ -115,19 +103,9 @@ namespace GroceryPro
             {
                 return false;
             }
-
         }
 
-
-
-
-
-
-
-        // ===================== Billing Section ====================
-        // ====== Recive data from db [ItemTbl] Table
-        // ====== and add it to billing sections combobox
-        // =====================================
+        // ======================= READ ITEM NAMES FROM DB FOR ITEM'S DROPDOWN
         private void ReadFromDB()
         {
             String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
@@ -139,10 +117,10 @@ namespace GroceryPro
             while (dataReader.Read())
             {
                 String CustomerData = (string)dataReader.GetValue(0);
-                // add data to combobox
+                //============ POPULATE ITEM'S COMBOBOX
                 ItemDropDown.Items.Add(CustomerData);
             }
-
+            //=============== CLOSE CONNECTIONS
             dataReader.Close();
             command.Dispose();
             cnn.Close();
@@ -203,12 +181,10 @@ namespace GroceryPro
                 String CustomerName = (string)dataReader.GetValue(0);
                 String CustomerPhone = (string)dataReader.GetValue(1);
 
-                // add data to combobox
+                //=========== ADD DATA TO COMBOBOX
                 CustomerDropDown.Items.Add(CustomerName + ", " + CustomerPhone);
-
-
             }
-
+            //================ CLOSE CONNECTIONS
             dataReader.Close();
             command.Dispose();
             cnn.Close();
@@ -217,7 +193,7 @@ namespace GroceryPro
         // ==================== PROCESS BILLING DATAGRIDS
         private List<string> process_dataGrid()
         {
-            // collect all data from data grid and store it on a list
+            //================= COLLECT ALL DATA FROM DATA GRID AND STORE IT ON A LIST
             List<string> data_list = new List<string>();
             int ctr = 0;
             while (ctr < ItemsDbBillGridXAML.Items.Count)
@@ -228,7 +204,7 @@ namespace GroceryPro
                 ctr++;
             }
 
-            // sort data and store it in 2 lists
+            //=================== SORT DATA AND STORE IT IN 2 LIST'S
             List<string> main_data = new List<string>();
             List<string> duplicate_data = new List<string>();
             HashSet<string> seen = new HashSet<string>();
@@ -238,16 +214,15 @@ namespace GroceryPro
                 String[] item = Main_item.Split('@');
                 if (seen.Contains(item[1]))
                 {
-                    duplicate_data.Add(Main_item);  // Duplicate data
+                    duplicate_data.Add(Main_item);  // DUPLICATE DATA
                 }
                 else
                 {
                     seen.Add(item[1]);
-                    main_data.Add(Main_item);  // Unique data
+                    main_data.Add(Main_item);  // UNIQUE DATA
                 }
             }
-
-            // marge duplicate data and main_data
+            //==================== MARGE DUPLICATE DATA AND MAIN_DATA
             for (int i = 0; i < main_data.Count; i++)
             {
                 for (int j = 0; j < duplicate_data.Count; j++)
@@ -287,40 +262,30 @@ namespace GroceryPro
             }
         }
 
-        // ===================================== END OF LOCAL FUNCTIONS =====================
+        // =============================== END OF LOCAL FUNCTIONS ==========================
 
 
+        // =================================================================================
+        // =============================== EVENT HANDELLER =================================
+        // =================================================================================
 
-        // ===================================== EVENT HANDELLER ===========================
-        // =========================== EXIT BUTTON
-        private void ExitBtn(object sender, MouseButtonEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-        // =========================== TO DRAG WINDOW
-        private void DragWindow(object sender, MouseButtonEventArgs e)
-        {
-            if(e.LeftButton == MouseButtonState.Pressed)
-            {
-                this.DragMove();
-            }
-        }
         // =========================== SHIFT WINDOW TO INVOICE
         private void GotoInvoiceWindow(object sender, RoutedEventArgs e)
         {
+            //============== REFRESH BILLING DATAGRID
+            RefreshDataGrid();
             bool is_empty = true;
-
             // ============= GET Cid BY CUSTOMER PHONE NUMBER
-
             bool is_exists = CheckIfCustomerPhoneExistsOrNot(Customer_phone.Text);
             if (is_exists)
             {
+                //========== GET CUSTOMER ID
                 int Cid = GetCustomerIdByPhone(Customer_phone.Text);
                 string current_date = DateTime.Now.ToString("MM / dd / yyyy");
 
                 string BillingData = "";
                 int GrandTotal = 0;
-                // to get data from datagrid billing section
+                //================= READ DATA FROM BILLING DATAGRID AND CALCULATE GRAND TOTAL
                 AddBill item = new AddBill();
                 foreach (AddBill p in ItemsDbBillGridXAML.Items)
                 {
@@ -329,8 +294,8 @@ namespace GroceryPro
                     is_empty = false;
                 }
 
-                // if billing datagrid is empty show info messege
-                if (is_empty == true)
+                //================= CHECK IF BILLING DATAGRID IS EMPTY OR NOT
+                if (is_empty)
                 {
                     MessageBox.Show("Add Item's to Bill.", "Gfresh", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
@@ -348,39 +313,32 @@ namespace GroceryPro
                     command.Dispose();
                     cnn.Close();
                 }
-                // remove it on final stage just for debuging.
-                MessageBox.Show("Added to DB.", "Gfresh", MessageBoxButton.OK, MessageBoxImage.Information);
-                
                 // ==================== CHANGE THE WINDOW
                 this.Hide();
                 Invoice invoice = new Invoice(to_print);
                 invoice.Show();
-
             }
             else
             {
                 MessageBox.Show("User Dosent Exists!\nAdd User.");
             }
-
         }
         
-
         //======================== ADD CUSTOMER TO DB
         private void AddCustomer(object sender, RoutedEventArgs e)
         {
             //================ CHECK IF USER EXISTS OR NOT
             bool dataExists = CheckIfCustomerPhoneExistsOrNot(Customer_phone.Text);
-
             //================ ASIGN DATA TO DB
             if (dataExists)
             {
-                MessageBox.Show("Data Exists");
+                MessageBox.Show("User Already Exists!\nSelect a Customer from the Dropdown.");
             }
             else
             {
                 if (Customer_name.Text != "" && Customer_phone.Text != "" && Customer_Address.Text != "")
                 {
-
+                    //================= GET CURRENT DATE
                     string current_date = DateTime.Now.ToString("MM / dd / yyyy");
 
                     String connectionString2 = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
@@ -394,16 +352,17 @@ namespace GroceryPro
 
                     adapter.InsertCommand = new SqlCommand(sql2, cnn2);
                     adapter.InsertCommand.ExecuteNonQuery();
+                    //================= CLOSE CONNECTIONS
                     command2.Dispose();
                     cnn2.Close();
-                    // refresh combobox
+                    //================== REFRESH CUSTOMER DROPDOWN (COMBOBOX)
                     RefreshCustomerDropdown();
-                    // clear all the fields
+                    //================== CLEAR CUSTOMER INPUT FIELDS
                     ClearCustomerFields();
                 }
                 else
                 {
-                    MessageBox.Show("Empty Fields !!");
+                    MessageBox.Show("Empty Fields !!!");
                 }
             }
         }
@@ -411,15 +370,19 @@ namespace GroceryPro
         //=================== CLEAR CUSTOMER INPUT FIELDS
         private void ClearFields(object sender, RoutedEventArgs e)
         {
+            //=============== CLEAR INPUT FIELDS
             Customer_name.Text = "";
             Customer_phone.Text = "";
             Customer_Address.Text = "";
             CustomerDropDown.SelectedIndex = -1;
-
+            //=============== ENABLE CUSTOMER INPUT FIELDS
             AddBillBtn.IsEnabled = true;
+            Customer_name.IsEnabled = true;
+            Customer_phone.IsEnabled = true;
+            Customer_Address.IsEnabled = true;
         }
 
-        //=================== CLEAR BILLING FIELDS
+        //=================== CLEAR BILLING INPUT FIELDS
         private void ClearBillingFields(object sender, RoutedEventArgs e)
         {
             ItemDropDown.SelectedIndex = -1;
@@ -431,6 +394,7 @@ namespace GroceryPro
         // =================== HANDEL EVENT ON SELECTING AN ITEM
         private void ItemDropDown_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
+            //==================== CHECK IF ANY ITEM IS SELECTED OR NOT
             if (ItemDropDown.SelectedIndex != -1)
             {
                 string SelectedItem = ItemDropDown.SelectedItem.ToString();
@@ -449,24 +413,27 @@ namespace GroceryPro
 
                     if (ItemName == SelectedItem)
                     {
+                        //============ ASIGN VALUES TO INPUT FIELDS FROM DB
                         int ItemQty = (int)dataReader.GetValue(2);
                         int ItemPrice = (int)dataReader.GetValue(3);
 
                         Bill_Quantity.Text = ItemQty.ToString();
                         Bill_Price.Text = ItemPrice.ToString();
+                        //!!!!!!!!!!!!! ADD DISCOUNT INPUT FIELD
                     }
                 }
+                //============== CLOSE CONNECTIONS
                 dataReader.Close();
                 command.Dispose();
                 cnn.Close();
             }
             else if(ItemDropDown.SelectedIndex == -1)
             {
-                ItemDropDown.SelectedIndex = -1;
+                //=============== RESET BILLING INPUT FIELDS
                 Bill_Quantity.Text = "";
                 Bill_Price.Text = "";
+                Bill_Discount.Text = "";
             }
-            
         }
 
         // =================== HANDEL EVENT ON SELECTING A CUSTOMER
@@ -482,20 +449,19 @@ namespace GroceryPro
                     string CustomerPhone = SelectedInfo.Split(',')[1].Trim();
 
                     //==================== SELECT CUSTOMER FROM DB BY PHONE
-
                     bool customer_exists = CheckIfCustomerPhoneExistsOrNot(CustomerPhone);
 
                     if (customer_exists)
                     {
-
+                        //============= DB CONNECTION LINK AND COMMAND
                         String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Maruf\\source\\repos\\Maruf512\\Gfresh\\GroceryPro\\DataBase\\GforceDB.mdf;Integrated Security=True;Connect Timeout=30";
                         String sql = $"SELECT CName,CAddress from CustomerInfo where CPhone = '{CustomerPhone}'";
 
                         SqlConnection cnn = new SqlConnection(connectionString);
                         cnn.Open();
                         SqlCommand command = new SqlCommand(sql, cnn);
-                        // get value
                         
+                        //============== READ VALUES FROM DB
                         using(SqlDataReader reader = command.ExecuteReader())
                         {
                             reader.Read();
@@ -506,43 +472,48 @@ namespace GroceryPro
                         }
                         //=============== DISSABLE ADD BUTTON
                         AddBillBtn.IsEnabled = false;
-
+                        Customer_name.IsEnabled = false;
+                        Customer_Address.IsEnabled = false;
+                        Customer_phone.IsEnabled = false;
                         //=============== CLOSE CONNECTIONS
                         command.Dispose();
                         cnn.Close();
-
-
                     }
-
-
-
-
-
+                    else
+                    {
+                        MessageBox.Show("User Dosen't Exists!\nAdd User.");
+                    }
                 }
                 catch (NullReferenceException)
                 {
+                    //=============== ENABLE INPUT FIELDS AND BUTTONS
                     AddBillBtn.IsEnabled = true;
+                    Customer_name.IsEnabled = true;
+                    Customer_Address.IsEnabled = true;
+                    Customer_phone.IsEnabled = true;
                 }
             }
             else if(CustomerDropDown.SelectedIndex == -1)
             {
+                //================== CLEAR INPUT FIELDS
                 Customer_name.Text = "";
                 Customer_phone.Text = "";
                 Customer_Address.Text = "";
                 CustomerDropDown.SelectedIndex = -1;
-
+                //================== ENABLE INPUT FIELDS AND BUTTON
                 AddBillBtn.IsEnabled = true;
+                Customer_name.IsEnabled = true;
+                Customer_Address.IsEnabled = true;
+                Customer_phone.IsEnabled = true;
             }
         }
 
-        
-        //=====================END=======================
 
-
-        // ======================= ADD ITEMS TO BILLS
+        // ======================= ADD ITEMS TO BILLS DataGrid
         int counter = 0;
         int TotalBill = 0;
-        private void AddToBill(object sender, RoutedEventArgs e)
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ADD DISCOUNT FIELD
+        private void AddBillToDataGrid(object sender, RoutedEventArgs e)
         {
             if (ItemDropDown.SelectedIndex != -1)
             {
@@ -562,18 +533,9 @@ namespace GroceryPro
 
                     if (ItemName == SelectedItem)
                     {
-                        // datagrid object
                         AddBill item = new AddBill();
-                        foreach (AddBill cntr in ItemsDbBillGridXAML.Items)
-                        {
-                            if (SelectedItem == cntr.Item)
-                            {
-                                //update this field
-                                continue;
-                                //ItemsDbBillGridXAML.Items.Contains(cntr.Item);
-                            }
-                        }
-                        // process data
+
+                        //============== PROCESS DATA
                         counter = counter + 1;
                         item.ID = counter;
 
@@ -584,22 +546,23 @@ namespace GroceryPro
                         int SubTotal = int.Parse(Bill_Price.Text.ToString()) * int.Parse(Bill_Quantity.Text.ToString());
                         item.Total = SubTotal;
 
-                        // add to data grid
+                        //============== ADD TO DATAGRID
                         ItemsDbBillGridXAML.Items.Add(item);
-                        // calculate total bill
+                        //============== CALCULATE TOTAL BILLS
                         TotalBill = TotalBill + SubTotal;
-                        // update total bill to gui
+                        //============== UPDATE TOTAL BILLS TO GUI
                         Total_Bill.Text = TotalBill.ToString() + "Tk";
                     }
                 }
-
+                //================ CLOSE OPEND CONNECTIONS
                 dataReader.Close();
                 command.Dispose();
                 cnn.Close();
 
-                // clear fields
+                //================ CLEAR ALL THE FIELDS
                 Bill_Quantity.Text = "";
                 Bill_Price.Text = "";
+                Bill_Discount.Text = "";
                 ItemDropDown.SelectedIndex = -1;
             }
             else
@@ -608,9 +571,7 @@ namespace GroceryPro
             }
         }
 
-
-
-        // =================== Reset all bills ===================
+        //=========================== RESET ALL BILLS AND DATAGRID
         private void ResetBill(object sender, RoutedEventArgs e)
         {
             ItemDropDown.SelectedIndex = -1;
@@ -618,30 +579,32 @@ namespace GroceryPro
             Bill_Price.Text = "";
             Total_Bill.Text = "";
             Bill_Discount.Text = "";
-
             ItemsDbBillGridXAML.Items.Clear();
-
         }
-
-        // =================== Refresh billing datagrid =================
+        //=========================== REFRESH BILLING DATAGRID
         private void RefreshDataGridBtn(object sender, RoutedEventArgs e)
         {
             RefreshDataGrid();
-
         }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        //=========================== TO DRAG WINDOW
+        private void DragWindow(object sender, MouseButtonEventArgs e)
         {
-            Application.Current.Shutdown();
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
         }
-
+        //=========================== CHANGE TO LOGOUT WINDOW
         private void GotoLogoutWindow(object sender, RoutedEventArgs e)
         {
             this.Hide();
             Login login = new Login();
             login.Show();
         }
-
-
+        //=========================== EXIT BUTTON
+        private void ExitBtn(object sender, MouseButtonEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }
